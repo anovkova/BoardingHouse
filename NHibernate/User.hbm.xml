@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="Domain" namespace="Domain" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="User" table="[User]" lazy="true" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="Role">
+      <column name="RoleId" sql-type="int" not-null="true" />
+    </many-to-one>
+    <property name="FirstName">
+      <column name="FirstName" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="LastName">
+      <column name="LastName" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="Embg">
+      <column name="EMBG" sql-type="nvarchar" not-null="true" />
+    </property>
+    <property name="PhoneNumber">
+      <column name="PhoneNumber" sql-type="nvarchar" not-null="true" />
+    </property>
+    <property name="Email">
+      <column name="Email" sql-type="nvarchar" not-null="true" />
+    </property>
+    <property name="Password">
+      <column name="Password" sql-type="nvarchar" not-null="true" />
+    </property>
+    <bag name="Rents">
+      <key column="UserId" />
+      <one-to-many class="Rent" />
+    </bag>
+  </class>
+</hibernate-mapping>

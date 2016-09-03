@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Кориснички профил</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <script src="~/scripts/jquery-3.1.0.min.js"></script>
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/css/styles.css" rel="stylesheet" />
+</head>
+<body style="background-color:#D9DEE4">
+    <div ng-app="userModule">
+        <div>@RenderBody()</div>
+    </div>
+
+
+    <script src="~/scripts/angular.min.js"></script>
+    <script src="~/scripts/angular-route.min.js"></script>
+    <script src="~/scripts/angular-ui-router.min.js"></script>
+    <script src="~/scripts/userProfileQuery.js"></script>
+    <script src="~/scripts/bootstrap.js"></script>
+    <script src="~/scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
+
+  
+
+    <script type="text/javascript" src="@Href("/app/modules/user.module.js")"></script>
+    <script type="text/javascript" src="@Href("/app/controllers/userProfile.controller.js")"></script>
+    <script type="text/javascript" src="@Href("/app/services/userProfile.service.js")"></script>
+    <script type="text/javascript" src="@Href("/app/controllers/changeProfileInfo.controller.js")"></script>
+    <script type="text/javascript" src="@Href("/app/filters/filterUser.js")"></script>
+
+</body>
+</html>

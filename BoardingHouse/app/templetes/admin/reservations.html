@@ -1,0 +1,39 @@
+﻿<div>
+    <div class="input-group col-lg-3 col-lg-offset-9 text-right" style="padding:0px;">
+        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+        <input placeholder="Пребарај" ng-model="search" style="padding:3px;" class="form-control" />
+    </div>
+
+
+    <!--<div class="col-lg-3 col-lg-offset-9 text-right" style="padding:0px;">
+        <input placeholder="Пребарај" ng-model="search" style="padding:3px;" />
+    </div>-->
+    <!--<div class="text-center"><a class="btn btn-success" ng-click="AddUser()"><span class="glyphicon glyphicon-plus"></span> Додади корисник</a></div>-->
+    <table class="table-striped" style="width:100%">
+        <thead>
+            <tr class="text-left">
+                <th>Име</th>
+                <th>Презиме</th>
+                <th>Од</th>
+                <th>До</th>
+                <th>Соба бр:</th>
+                <th>Кат</th>
+                <!--<th><div class="addButton" ng-click="AddUser()"><span class="glyphicon glyphicon-plus"></span></div></th>-->
+                <!--<th><a href="#"><div ng-click="AddUser()"><i class="fa fa-plus-circle fa-2x" aria-hidden="true" style="color:lightseagreen"></i></div></a></th>-->
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="rent in rents | filter:search" class="text-left" style="padding:5px">
+                <td>{{rent.User.FirstName}}</td>
+                <td>{{rent.User.LastName}}</td>
+                <td>{{rent.DateStart | jsDate}}</td>
+                <td>{{rent.DateEnd | jsDate}}</td>
+                <td>{{rent.RoomId}}</td>
+                <td>{{rent.Floor}}</td>
+                <td><a ng-click="UpdateRent(rent)"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a></td>
+                <!--<td><a ng-click="AddUser(user)"><span class="glyphicon glyphicon-pencil"></span></a></td>-->
+                <!--<td class="text-center col-lg-1"><a class="btn btn-success" ng-click="AddUser(user)"><span class="glyphicon glyphicon-plus"></span>Измени корисник</a></td>-->
+            </tr>
+        </tbody>
+    </table>
+</div>

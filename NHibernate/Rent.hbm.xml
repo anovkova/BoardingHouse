@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="Domain" namespace="Domain" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Rent" table="Rent" lazy="true" >
+    <id name="Id" column="Id">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="User">
+      <column name="UserId" sql-type="int" not-null="true" />
+    </many-to-one>
+    <property name="DateStart">
+      <column name="DateStart" sql-type="datetime" not-null="true" />
+    </property>
+    <property name="DateEnd">
+      <column name="DateEnd" sql-type="datetime" not-null="false" />
+    </property>
+    <property name="Active">
+      <column name="active" sql-type="bit" not-null="true" />
+    </property>
+     <many-to-one name="Room">
+      <column name="RoomId" sql-type="int" not-null="false" />
+    </many-to-one>
+   
+    <!--<bag name="Account">
+      <key column="RentId" />
+      <one-to-many class="Account" />
+    </bag>-->
+    <bag name="Accounts">
+      <key column="RentId" />
+      <one-to-many class="Account" />
+    </bag>
+  </class>
+</hibernate-mapping>

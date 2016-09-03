@@ -1,0 +1,16 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Информации за соба број: {{room.Id}}</h3>
+</div.
+<div class="modal-body">
+    <div ng-repeat="rent in room.Rents">
+        <div class="col-lg-6">{{rent.User.FirstName + " " + rent.User.LastName}}</div>
+        <div class="col-lg-3">Од: {{rent.DateStart  | jsDate}}</div>
+        <div class="col-lg-3">До: {{rent.DateEnd | jsDate}}</div>
+    </div>
+    <div ng-if="room.Rents.length===0">Нема моментални резервации за оваа соба</div>
+    <div>{{msg}}</div>
+</div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="makeAreservation()" ng-if="reservation.userId!=null">Резервирај</button>
+        <button class="btn btn-info" type="button" ng-click="cancel()">Затвори</button>
+    </div>

@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Најава</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/Content/css/styles.css" rel="stylesheet" />
+</head>
+<body>
+    <div ng-app="mainModule">
+        <div ng-controller="mainController">
+            {{masterValue}}
+        </div>
+
+
+        <div>@RenderBody()</div>
+
+    </div>
+    <script src="~/scripts/angular.min.js"></script>
+    <script src="~/scripts/angular-route.min.js"></script>
+ 
+    <script type="text/javascript" src="@Href("/app/modules/main.module.js")"></script>
+    <script type="text/javascript" src="@Href("/app/controllers/main.controller.js")"></script>
+    <script type="text/javascript" src="@Href("/app/services/app.service.js")"></script>
+
+</body>
+</html>

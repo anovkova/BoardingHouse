@@ -1,0 +1,11 @@
+packages
+bin
+bin/Debug
+bin/Release
+obj
+obj/Debug
+obj/Release
+*.suo
+logs
+*.svclog
+*.user

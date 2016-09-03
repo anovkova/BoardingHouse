@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/_LayouUserPage.cshtml";
+}
+
+<div ng-controller="userProfileController">
+    <div class="col-lg-8 col-sm-8 col-lg-offset-2">
+        <div class="card hovercard">
+            <div class="card-background">
+                <img class="card-bkimg" alt="" src="~/image/Screenshot_6.png">
+            </div>
+            <div class="useravatar">
+                <img alt="" src="~/image/Screenshot_6.png">
+            </div>
+            <div class="card-info">
+                <span class="card-title">{{userFullName}}</span>
+            </div>
+        </div>
+            <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab">
+                        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                        <div class="hidden-xs">Лични податоци</div>
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab">
+                        <i class="fa fa-bed fa-2x" aria-hidden="true"></i>
+                        <div class="hidden-xs">Резервации</div>
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" id="following" class="btn btn-default" href="#tab3" data-toggle="tab">
+                        <i class="fa fa-money fa-2x" aria-hidden="true"></i>
+                        <div class="hidden-xs">Сметки</div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="well">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active text-left" id="tab1">
+                        <table class="table">
+                            <thead>
+                                @*<tr>
+                                    <th>#</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Username</th>
+                                </tr>*@
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Име и презиме:</th>
+                                    <td>{{userFullName}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Адреса:</th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>ЕМБГ:</th>
+                                    <td>{{user.Embg}}</td> 
+                                </tr>
+                                <tr>
+                                    <th>Контакт телефон:</th>
+                                    <td>{{user.PhoneNumber}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Емаил:</th>
+                                    <td>{{user.Email}}</td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td class="text-right"><div ng-click="updateInfo()" ng-app=""><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>Промени лични информации</div></td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td class="text-right"><a href=#><span class="glyphicon glyphicon-off text-danger" ng-click="LogOff()"></span></a></td>
+                                </tr>
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade in" id="tab2">
+                      <div>
+                          Моментална резервација:
+                          <hr />
+                         <table class="table table-hover">
+                             <thead></thead>
+                             <tbody>
+                                 <tr>
+                                     <th>Соба бр:</th>
+                                     <td>{{currentRent.RoomId}}</td>
+                                 </tr>
+                                 <tr>
+                                     <th>Kat</th>
+                                     <td>{{currentRent.Floor}}</td>
+                                 </tr>
+                                 <tr>
+                                     <th>Од:</th>
+                                     <td>{{currentRent.DateStart  | jsDate}}</td>
+                                 </tr>
+                                 <tr>
+                                     <th>До:</th>
+                                     <td>{{currentRent.DateEnd  | jsDate}}</td>
+                                 </tr>
+                             </tbody>
+                         </table>
+                           Изминати резервација:
+                          <hr />
+                          <div ng-repeat="rent in allRents">
+                              <div class="panel panel-default">
+                                  <div class="panel-heading" role="tab" id="headingOne" style="border: 1px solid #D9DEE4;">
+                                      <h4 class="panel-title">
+                                          <a role="button" data-toggle="collapse" data-parent="#accordion" ng-href="{{'#'+rent.Id}}" aria-expanded="false" aria-controls="collapseOne">
+                                             {{rent.DateStart | jsDate}} - {{rent.DateEnd | jsDate}}
+                                          </a>
+                                      </h4>
+                                  </div>
+                                  <div id="{{rent.Id}}" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne">
+                                      <div class="panel-body">
+                                          <table class="table table-hover">
+                                              <thead></thead>
+                                              <tbody>
+                                                  <tr>
+                                                      <th>Соба бр:</th>
+                                                      <td>{{rent.RoomId}}</td>
+                                                  </tr>
+                                                  <tr>
+                                                      <th>Kat</th>
+                                                      <td>{{rent.Floor}}</td>
+                                                  </tr>
+                                                  <tr>
+                                                      <th>Од:</th>
+                                                      <td>{{rent.DateStart  | jsDate}}</td>
+                                                  </tr>
+                                                  <tr>
+                                                      <th>До:</th>
+                                                      <td>{{rent.DateEnd  | jsDate}}</td>
+                                                  </tr>
+                                              </tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                      </div>
+                    </div>
+                    <div class="tab-pane fade in" id="tab3">
+                        <h3>This is tab 3</h3>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+</div>
