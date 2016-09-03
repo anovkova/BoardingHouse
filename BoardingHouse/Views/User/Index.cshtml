@@ -88,70 +88,72 @@
                         </table>
                     </div>
                     <div class="tab-pane fade in" id="tab2">
-                      <div>
-                          Моментална резервација:
-                          <hr />
-                         <table class="table table-hover">
-                             <thead></thead>
-                             <tbody>
-                                 <tr>
-                                     <th>Соба бр:</th>
-                                     <td>{{currentRent.RoomId}}</td>
-                                 </tr>
-                                 <tr>
-                                     <th>Kat</th>
-                                     <td>{{currentRent.Floor}}</td>
-                                 </tr>
-                                 <tr>
-                                     <th>Од:</th>
-                                     <td>{{currentRent.DateStart  | jsDate}}</td>
-                                 </tr>
-                                 <tr>
-                                     <th>До:</th>
-                                     <td>{{currentRent.DateEnd  | jsDate}}</td>
-                                 </tr>
-                             </tbody>
-                         </table>
-                           Изминати резервација:
-                          <hr />
-                          <div ng-repeat="rent in allRents">
-                              <div class="panel panel-default">
-                                  <div class="panel-heading" role="tab" id="headingOne" style="border: 1px solid #D9DEE4;">
-                                      <h4 class="panel-title">
-                                          <a role="button" data-toggle="collapse" data-parent="#accordion" ng-href="{{'#'+rent.Id}}" aria-expanded="false" aria-controls="collapseOne">
-                                             {{rent.DateStart | jsDate}} - {{rent.DateEnd | jsDate}}
-                                          </a>
-                                      </h4>
-                                  </div>
-                                  <div id="{{rent.Id}}" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne">
-                                      <div class="panel-body">
-                                          <table class="table table-hover">
-                                              <thead></thead>
-                                              <tbody>
-                                                  <tr>
-                                                      <th>Соба бр:</th>
-                                                      <td>{{rent.RoomId}}</td>
-                                                  </tr>
-                                                  <tr>
-                                                      <th>Kat</th>
-                                                      <td>{{rent.Floor}}</td>
-                                                  </tr>
-                                                  <tr>
-                                                      <th>Од:</th>
-                                                      <td>{{rent.DateStart  | jsDate}}</td>
-                                                  </tr>
-                                                  <tr>
-                                                      <th>До:</th>
-                                                      <td>{{rent.DateEnd  | jsDate}}</td>
-                                                  </tr>
-                                              </tbody>
-                                          </table>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
+                        <div ng-if="!!!currentRent">
+                            Моментална резервација:
+                            <hr />
+                            <table class="table table-hover">
+                                <thead></thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Соба бр:</th>
+                                        <td>{{currentRent.RoomId}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Kat</th>
+                                        <td>{{currentRent.Floor}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Од:</th>
+                                        <td>{{currentRent.DateStart  | jsDate}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>До:</th>
+                                        <td>{{currentRent.DateEnd  | jsDate}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div ng-if="!!currentRent">Nема моменатлна резервација</div>
+                            Изминати резервација:
+                            <hr />
+                            <div ng-repeat="rent in allRents">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingOne" style="border: 1px solid #D9DEE4;">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" ng-href="{{'#'+rent.Id}}" aria-expanded="false" aria-controls="collapseOne">
+                                                {{rent.DateStart | jsDate}} - {{rent.DateEnd | jsDate}}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="{{rent.Id}}" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            <table class="table table-hover">
+                                                <thead></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Соба бр:</th>
+                                                        <td>{{rent.RoomId}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Kat</th>
+                                                        <td>{{rent.Floor}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Од:</th>
+                                                        <td>{{rent.DateStart  | jsDate}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>До:</th>
+                                                        <td>{{rent.DateEnd  | jsDate}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                      </div>
+                        </div>
                     </div>
                     <div class="tab-pane fade in" id="tab3">
                         <h3>This is tab 3</h3>
