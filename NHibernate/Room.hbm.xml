@@ -4,15 +4,9 @@
     <id name="Id" column="Id">
       <generator class="identity" />
     </id>
-    <property name="NumOfbeds">
+    <property name="NumOfBeds">
       <column name="numOfBeds" sql-type="int" not-null="true" />
     </property>
-    <!--<property name="FreeBeds">
-      <column name="freeBeds" sql-type="int" not-null="true" />
-    </property>-->
-    <!--<property name="Floor">
-      <column name="FloorId" sql-type="int" not-null="true" />
-    </property>-->
     <many-to-one name="Floor">
       <column name="FloorId" sql-type="int" not-null="true" />
     </many-to-one>

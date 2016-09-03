@@ -1,9 +1,5 @@
 ﻿using Repository.Interface;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Domain;
 using NHibernate;
 using NHibernate.Linq;
@@ -11,20 +7,17 @@ namespace Repository.Implementation
 {
     public class UserRepository : IUserRepository
     {
-
         private readonly ISession _session;
 
         public UserRepository(ISession session)
         {
             _session = session;
         }
-        public User Login(String email, String password)
+        public User Login(string email, string password)
         {
-            User user = _session.Query<User>().Where(x => x.Email == email && x.Password == password).FirstOrDefault();
+            User user = _session.Query<User>().FirstOrDefault(x => x.Email.ToLower() == email.ToLower() && x.Password == password);
 
             return user;
-
-
         }
     }
 }

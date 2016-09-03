@@ -69,6 +69,12 @@ namespace BoardingHouse.Controllers
                 throw;
             }
         }
-    
+
+        [HttpPost]
+        public JsonResult UploadPicture()
+        {
+            var file = Request.Files[0];
+            return Json(true);
+        }
     }
 }

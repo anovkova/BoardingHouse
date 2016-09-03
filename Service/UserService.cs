@@ -1,14 +1,10 @@
 ﻿using Domain;
 using Mappers;
 using NHibernate;
-using NHibernate.Repositories;
-using Repository.Interface;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NHibernates.Repositories;
 using ViewModels;
 
 namespace Service
@@ -48,7 +44,7 @@ namespace Service
                 var rent1 = _rentRepository.FindBy(1);
 
                 if (loginUser != null)
-                    return loginUser.toUserViewModel();
+                    return loginUser.ToUserViewModel();
                 else return null;
             }
        
@@ -63,7 +59,7 @@ namespace Service
                 _userRepository = new Repository<User>(session);
                 var users = _userRepository.All().Where(x => x.Role.Id == 2).ToList();
 
-                return users.Select(x => x.toUserViewModel()).ToList();
+                return users.Select(x => x.ToUserViewModel()).ToList();
             }
           
         }
@@ -75,7 +71,7 @@ namespace Service
             {
                 _rentRepository = new Repository<Rent>(session);
                 var all = _rentRepository.All().ToList();
-                return all.Select(x => x.toCurrentRentViewModel()).OrderByDescending(x => x.DateStart).ToList();
+                return all.Select(x => x.ToCurrentRentViewModel()).OrderByDescending(x => x.DateStart).ToList();
             }
 
         }
@@ -87,7 +83,7 @@ namespace Service
             {
                 _floorRepository = new Repository<Floor>(session);
                 var allFloors =  _floorRepository.All();
-                var floors = allFloors.Select(x => x.toFloorViewModel()).ToList();
+                var floors = allFloors.Select(x => x.ToFloorViewModel()).ToList();
  
                 return floors;
             }
@@ -99,14 +95,14 @@ namespace Service
             using (ITransaction transaction = session.BeginTransaction())
             {
                 _floorRepository = new Repository<Floor>(session);        
-                var floorView = _floorRepository.All().Where(x => x.NumOfFloor == floor.NumOfFloor).FirstOrDefault().toFloorViewModel();
+                var floorView = _floorRepository.All().Where(x => x.NumOfFloor == floor.NumOfFloor).FirstOrDefault().ToFloorViewModel();
 
                 foreach (var room in floorView.Rooms)
                 {
                     foreach (var rent in room.Rents.ToList())
                         if (!CheckRent(rent))
                         {
-                            room.deleteRent(rent);
+                            room.DeleteRent(rent);
                         }
                 }
             
@@ -131,7 +127,7 @@ namespace Service
             using (ITransaction transaction = session.BeginTransaction())
             {
                 _floorRepository = new Repository<Floor>(session);
-                var floor = _floorRepository.FindBy(resrvation.floorId);
+                var floor = _floorRepository.FindBy(resrvation.FloorId);
 
                 List<RoomViewModel> availableRooms = new List<RoomViewModel>();
                 if (resrvation.DateEnd > resrvation.DateStart && resrvation.DateStart.Date>= DateTime.Now.Date)
@@ -146,8 +142,8 @@ namespace Service
                             if (rent.DateEnd < resrvation.DateStart)
                                 room.Rents.Remove(rent);
                         }
-                        if (count < room.NumOfbeds)
-                            availableRooms.Add(room.toRoomViewModel());       
+                        if (count < room.NumOfBeds)
+                            availableRooms.Add(room.ToRoomViewModel());       
                     }
                     return availableRooms;
                 }
@@ -166,12 +162,12 @@ namespace Service
                 _roomRepository = new Repository<Room>(session);
 
                 Rent rent = new Rent();
-                rent.User = _userRepository.FindBy(reservation.userId);
+                rent.User = _userRepository.FindBy(reservation.UserId);
                 rent.DateEnd = reservation.DateEnd;
                 rent.DateStart = reservation.DateStart;
-                rent.Room = _roomRepository.FindBy(reservation.roomId);
+                rent.Room = _roomRepository.FindBy(reservation.RoomId);
 
-                var usersRent = _rentRepository.All().Where(x => x.User.Id == reservation.userId).ToList();
+                var usersRent = _rentRepository.All().Where(x => x.User.Id == reservation.UserId).ToList();
                 bool flag = true;
                 foreach(var tmpRent in usersRent)
                 {
@@ -266,7 +262,7 @@ namespace Service
                 var userDb = _userRepository.All().Where(x => x.Email == user.Email).FirstOrDefault();
                 if (userDb != null)
                 {
-                    _userRepository.Update(user.toUserDomainModel());
+                    _userRepository.Update(user.ToUserDomainModel());
                     transaction.Commit();
                 }
 
@@ -285,7 +281,7 @@ namespace Service
                 var user = _userRepository.All().Where(x => x.Email == email).FirstOrDefault();
 
                 if (user != null)
-                    return user.toUserViewModel();
+                    return user.ToUserViewModel();
 
                 return null;
             }
@@ -299,7 +295,7 @@ namespace Service
                 _rentRepository = new Repository<Rent>(session);
                 DateTime now = DateTime.Now;
 
-               return  _rentRepository.All().Where(x => x.User == user.toUserDomainModel() && now >= x.DateStart && now <= x.DateEnd).SingleOrDefault().toCurrentRentViewModel();
+               return  _rentRepository.All().Where(x => x.User == user.ToUserDomainModel() && now >= x.DateStart && now <= x.DateEnd).SingleOrDefault().ToCurrentRentViewModel();
 
 
             }
@@ -313,9 +309,9 @@ namespace Service
                 _rentRepository = new Repository<Rent>(session);
                 DateTime now = DateTime.Now;
 
-                var rents= _rentRepository.All().Where(x => x.User == user.toUserDomainModel() && now > x.DateEnd).ToList();
+                var rents= _rentRepository.All().Where(x => x.User == user.ToUserDomainModel() && now > x.DateEnd).ToList();
 
-                return rents.Select(x => x.toCurrentRentViewModel()).ToList();
+                return rents.Select(x => x.ToCurrentRentViewModel()).ToList();
 
 
             }

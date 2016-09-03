@@ -19,11 +19,6 @@
      <many-to-one name="Room">
       <column name="RoomId" sql-type="int" not-null="false" />
     </many-to-one>
-   
-    <!--<bag name="Account">
-      <key column="RentId" />
-      <one-to-many class="Account" />
-    </bag>-->
     <bag name="Accounts">
       <key column="RentId" />
       <one-to-many class="Account" />

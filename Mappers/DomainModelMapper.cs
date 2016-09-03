@@ -1,18 +1,14 @@
 ﻿using Domain;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ViewModels;
 
 namespace Mappers
 {
     public static class DomainModelMapper
     {
-        public static UserViewModel toUserViewModel(this User user)
+        public static UserViewModel ToUserViewModel(this User user)
         {
-            return new UserViewModel
+            var model = new UserViewModel
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -20,11 +16,18 @@ namespace Mappers
                 Email = user.Email,
                 Embg = user.Embg,
                 Password = user.Password,
-                Role = user.Role.toRoleViewModel(),
                 PhoneNumber = user.PhoneNumber
             };
+
+            if (user.Role != null)
+            {
+                model.Role = user.Role.ToRoleViewModel();
+            }
+
+            return model;
         }
-        public static RoleViewModel toRoleViewModel(this Role role)
+
+        public static RoleViewModel ToRoleViewModel(this Role role)
         {
             return new RoleViewModel
             {
@@ -32,7 +35,7 @@ namespace Mappers
                 Title = role.Title
             };
         }
-        public static StatusViewModel toStatusViewModel(this Status status)
+        public static StatusViewModel ToStatusViewModel(this Status status)
         {
             return new StatusViewModel
             {
@@ -41,67 +44,87 @@ namespace Mappers
             };
         }
 
-        public static AccountViewModel toAccountViewModel(this Account account)
+        public static AccountViewModel ToAccountViewModel(this Account account)
         {
-            return new AccountViewModel
+            var model =  new AccountViewModel
             {
                 Id = account.Id,
                 Amount = account.Amount,
                 Description = account.Description,
-                Month = account.Month,
-                Status = account.Status.toStatusViewModel(),
-                Rent = account.Rent.toRentViewModel()
+                Month = account.Month
             };
+
+            if (account.Status != null)
+            {
+                model.Status = account.Status.ToStatusViewModel();
+                model.Rent = account.Rent.ToRentViewModel();
+            }
+
+            return model;
         }
 
-        public static RentViewModel toRentViewModel(this Rent rent)
+        public static RentViewModel ToRentViewModel(this Rent rent)
         {
-            return new RentViewModel
+            var model = new RentViewModel
             {
                 Active = rent.Active,
                 DateEnd = rent.DateEnd,
                 DateStart = rent.DateStart,
-                Id = rent.Id,
-                //Room = rent.Room.toRoomViewModel(),
-                User = rent.User.toUserViewModel()
-                
-             
+                Id = rent.Id
             };
+
+            if (rent.User != null)
+            {
+                model.User = rent.User.ToUserViewModel();
+            }
+
+            return model;
         }
 
-        public static CurrentRent toCurrentRentViewModel(this Rent rent)
+        public static CurrentRent ToCurrentRentViewModel(this Rent rent)
         {
-            return new CurrentRent
+            var model = new CurrentRent
             {
                 DateEnd = rent.DateEnd,
                 DateStart = rent.DateStart,
-                Id = rent.Id,
-                RoomId = rent.Room.Id,
-                User = rent.User.toUserViewModel(),
-                Floor = rent.Room.Floor.NumOfFloor
+                Id = rent.Id
             };
+
+            if (rent.User != null)
+            {
+                model.User = rent.User.ToUserViewModel();
+            }
+
+            if (rent.Room != null)
+            {
+                model.RoomId = rent.Room.Id;
+
+                if (rent.Room.Floor != null)
+                {
+                    model.Floor = rent.Room.Floor.NumOfFloor;
+                }
+            }
+
+            return model;
         }
-        public static RoomViewModel toRoomViewModel(this Room room)
+        public static RoomViewModel ToRoomViewModel(this Room room)
         {
             return new RoomViewModel
             {
                 Id = room.Id,
-                //Floor = room.Floor.toFloorViewModel(),
-                //FreeBeds = room.FreeBeds,
-                NumOfbeds = room.NumOfbeds,
-                Rents = (room.Rents != null) ? room.Rents.Select(x => x.toRentViewModel()).ToList() : null
-
+                NumOfbeds = room.NumOfBeds,
+                Rents = (room.Rents != null) ? room.Rents.Select(x => x.ToRentViewModel()).ToList() : null
             };
         }
 
-        public static FloorViewModel toFloorViewModel(this Floor floor)
+        public static FloorViewModel ToFloorViewModel(this Floor floor)
         {
           
             return new FloorViewModel
             {
                 Id = floor.Id,
                 NumOfFloor = floor.NumOfFloor,
-                Rooms = floor.Rooms.Select(x => x.toRoomViewModel()).ToList()
+                Rooms = floor.Rooms.Select(x => x.ToRoomViewModel()).ToList()
             
              };
         }

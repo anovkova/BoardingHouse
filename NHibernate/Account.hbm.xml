@@ -7,6 +7,10 @@
     <many-to-one name="Status">
       <column name="Status" sql-type="int" not-null="true" />
     </many-to-one>
+
+    <many-to-one name="AccountType">
+      <column name="TypeId" sql-type="int" not-null="true" />
+    </many-to-one>
    
     <property name="Description">
       <column name="Description" sql-type="nvarchar" not-null="false" />

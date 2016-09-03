@@ -1,16 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardingHouse", "BoardingHouse\BoardingHouse.csproj", "{EAE3A519-1B1A-4485-94DE-464A8A04648F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{9EDC4A68-060D-47A7-9951-8B69EA008776}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{CD45CE99-43BB-483C-9195-B5CA7120CA74}"
-	ProjectSection(SolutionItems) = preProject
-		NHibernate\User.hbm.xml = NHibernate\User.hbm.xml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{B8332E72-28C3-4D12-858C-44333DC0E797}"
 EndProject

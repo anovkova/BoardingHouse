@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain
+﻿namespace Domain
 {
     public class Account
     {
         public virtual int Id { get; set; }
+        public virtual AccountType AccountType { get; set; }
         public virtual Rent Rent { get; set; }
         public virtual Status Status { get; set; }
         public virtual string Description { get; set; }

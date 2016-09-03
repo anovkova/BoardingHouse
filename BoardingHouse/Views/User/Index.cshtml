@@ -72,7 +72,11 @@
                                     <td>{{user.Email}}</td>
                                 </tr>
                                 <tr>
-                                    <th></th>
+                                    <th>
+                                        <div ngf-drop ngf-select ng-model="file" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false">
+                                            Drop images here or click to upload
+                                        </div>
+                                    </th>
                                     <td class="text-right"><div ng-click="updateInfo()" ng-app=""><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>Промени лични информации</div></td>
                                 </tr>
                                 <tr>

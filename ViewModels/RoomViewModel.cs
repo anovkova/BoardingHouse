@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ViewModels
 {
@@ -11,14 +7,10 @@ namespace ViewModels
         public int Id { get; set; }
         public FloorViewModel Floor { get; set; }
         public int NumOfbeds { get; set; }
-        //public int FreeBeds { get; set; }
         public  List<RentViewModel> Rents { get; set; }
-
-        public void deleteRent(RentViewModel rent)
+        public void DeleteRent(RentViewModel rent)
         {
             Rents.Remove(rent);
         }
-
-        
     }
 }

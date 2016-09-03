@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Domain
 {
@@ -23,7 +19,7 @@ namespace Domain
 
         public virtual void AddRents(Rent rent)
         {
-            this.Rents.Add(rent);
+            Rents.Add(rent);
         }
     }
 }

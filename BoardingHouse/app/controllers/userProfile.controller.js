@@ -5,16 +5,18 @@ angular.module('userModule').controller('userProfileController',
      '$scope',
      'userService',
            '$uibModal',
-      function ($scope, userService, $uibModal) {
+           'Upload',
+      function ($scope, userService, $uibModal, upload) {
           $scope.userFullName = null;
+          $scope.file = '';
 
           $scope.getLoginUser = function () {
-              userService.getLoginUser(function (data) {
+              userService.getLoginUser(function(data) {
                   $scope.userFullName = data.FirstName + " " + data.LastName;
                   $scope.user = data;
                   $scope.getRentByUser();
                   $scope.getAllRentByUser();
-              }, function () { })
+              }, function() {});
           };
 
           $scope.getLoginUser();
@@ -35,10 +37,6 @@ angular.module('userModule').controller('userProfileController',
                   $scope.allRents = data;
               }, function () { });
           };
-
-
-        
-
 
           $scope.updateInfo = function () {
               var modalInstance = $uibModal.open({
@@ -62,6 +60,17 @@ angular.module('userModule').controller('userProfileController',
                 });
           };
 
-
+          $scope.$watch('file', function (newVal) {
+              if (!!newVal) {
+                  upload.upload({
+                      url: 'User/UploadPicture',
+                      file: newVal,
+                      progress: function(e) {}
+                  }).then(function(data, status, headers, config) {
+                      // file is uploaded successfully
+                      console.log(data);
+                  });
+              }
+          });
       }
  ]);
