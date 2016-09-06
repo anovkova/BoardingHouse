@@ -130,10 +130,11 @@
     <Content Include="app\controllers\changeProfileInfo.controller.js" />
     <Content Include="app\controllers\floor.controller.js" />
     <Content Include="app\controllers\main.controller.js" />
+    <Content Include="app\controllers\makeReservation.controller.js" />
     <Content Include="app\controllers\reservation.controller.js" />
     <Content Include="app\controllers\roomInfo.controller.js" />
+    <Content Include="app\controllers\roomInfoForPeriod.controller.js" />
     <Content Include="app\controllers\userProfile.controller.js" />
-    <Content Include="app\directives\infoRoom.directive.js" />
     <Content Include="app\filters\filters.js" />
     <Content Include="app\filters\filterUser.js" />
     <Content Include="app\modules\admin.module.js" />
@@ -142,10 +143,12 @@
     <Content Include="app\services\admin.service.js" />
     <Content Include="app\services\app.service.js" />
     <Content Include="app\services\userProfile.service.js" />
-    <Content Include="app\templetes\admin\addContact.html" />
+    <Content Include="app\templetes\admin\addUser.html" />
     <Content Include="app\templetes\admin\floors.html" />
+    <Content Include="app\templetes\admin\makeReservation.html" />
     <Content Include="app\templetes\admin\reservations.html" />
     <Content Include="app\templetes\admin\roomInfo.html" />
+    <Content Include="app\templetes\admin\roomInfoForPeriod.html" />
     <Content Include="app\templetes\admin\users.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -163,7 +166,6 @@
     </Content>
     <Content Include="image\defaultImage.png" />
     <Content Include="image\Screenshot_6.png" />
-    <Content Include="Models\ViewModels.js" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="scripts\angular-animate.js" />
@@ -1022,6 +1024,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="app\directives\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

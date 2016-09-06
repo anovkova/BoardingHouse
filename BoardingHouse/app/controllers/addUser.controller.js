@@ -1,17 +1,11 @@
 ﻿/// <reference path="../templetes/admin/addContact.html" />
 'use strict';
 
-angular.module('adminModule').controller('addUserController',
- [
-     '$scope',
-    'adminService',
-     'user',
-      '$uibModalInstance',
+angular.module('adminModule').controller('addUserController', ['$scope', 'adminService', 'user', '$uibModalInstance',
       function ($scope, adminService, user, $uibModalInstance) {
           $scope.user = user;
-          $scope.flag = false;
+
           $scope.Save = function (userForm) {
-            
               if (userForm.$valid) {
                   adminService.addNewUser($scope.user, function (data) {
                       if (!!data) {
@@ -21,16 +15,13 @@ angular.module('adminModule').controller('addUserController',
               }
               else {
                   if (userForm.FirstName.$invalid) {
-                        userForm.FirstName.$pristine = false;
+                      userForm.FirstName.$pristine = false;
                   }
                   if (userForm.LastName.$invalid) {
                       userForm.LastName.$pristine = false;
                   }
                   if (userForm.Embg.$invalid) {
                       userForm.Embg.$pristine = false;
-                  }
-                  if (userForm.PhoneNumber.$invalid) {
-                      userForm.PhoneNumber.$pristine = false;
                   }
                   if (userForm.Email.$invalid) {
                       userForm.Email.$pristine = false;
@@ -45,4 +36,4 @@ angular.module('adminModule').controller('addUserController',
               $uibModalInstance.close();
           };
       }
- ]);
+]);

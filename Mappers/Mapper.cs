@@ -4,7 +4,7 @@ using ViewModels;
 
 namespace Mappers
 {
-    public static class DomainModelMapper
+    public static class Mapper
     {
         public static UserViewModel ToUserViewModel(this User user)
         {
@@ -16,7 +16,8 @@ namespace Mappers
                 Email = user.Email,
                 Embg = user.Embg,
                 Password = user.Password,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                Address = user.Address
             };
 
             if (user.Role != null)
@@ -67,10 +68,10 @@ namespace Mappers
         {
             var model = new RentViewModel
             {
+                Id = rent.Id,
                 Active = rent.Active,
                 DateEnd = rent.DateEnd,
-                DateStart = rent.DateStart,
-                Id = rent.Id
+                DateStart = rent.DateStart
             };
 
             if (rent.User != null)
@@ -81,9 +82,9 @@ namespace Mappers
             return model;
         }
 
-        public static CurrentRent ToCurrentRentViewModel(this Rent rent)
+        public static RentSimpleModel ToSimpleModel(this Rent rent)
         {
-            var model = new CurrentRent
+            var model = new RentSimpleModel
             {
                 DateEnd = rent.DateEnd,
                 DateStart = rent.DateStart,
@@ -92,7 +93,8 @@ namespace Mappers
 
             if (rent.User != null)
             {
-                model.User = rent.User.ToUserViewModel();
+                model.UserFirstName = rent.User.FirstName;
+                model.UserLastName = rent.User.LastName;
             }
 
             if (rent.Room != null)
@@ -107,26 +109,37 @@ namespace Mappers
 
             return model;
         }
+
         public static RoomViewModel ToRoomViewModel(this Room room)
         {
-            return new RoomViewModel
+            var model = new RoomViewModel
             {
                 Id = room.Id,
-                NumOfbeds = room.NumOfBeds,
-                Rents = (room.Rents != null) ? room.Rents.Select(x => x.ToRentViewModel()).ToList() : null
+                NumOfBeds = room.NumOfBeds
             };
+
+            if (room.Rents != null)
+            {
+                model.Rents = room.Rents.Select(x => x.ToRentViewModel()).ToList();
+            }
+
+            return model;
         }
 
         public static FloorViewModel ToFloorViewModel(this Floor floor)
         {
-          
-            return new FloorViewModel
+            var model = new FloorViewModel
             {
                 Id = floor.Id,
-                NumOfFloor = floor.NumOfFloor,
-                Rooms = floor.Rooms.Select(x => x.ToRoomViewModel()).ToList()
-            
+                NumOfFloor = floor.NumOfFloor
              };
+
+            if (floor.Rooms != null)
+            {
+                model.Rooms = floor.Rooms.Select(x => x.ToRoomViewModel()).ToList();
+            }
+
+            return model;
         }
     }
 }

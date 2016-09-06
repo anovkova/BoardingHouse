@@ -12,15 +12,13 @@ angular.module('mainModule').factory('appService',
                         data: JSON.stringify(user),
                         headers: { 'content-type': 'application/json' }
                     }).
-                    success(function (data) {                     
+                    success(function (data) {
                         successcb(data);
                     }).
                     error(function (error) {
                         errorcb(error);
                     });
                 }
-
-
             };
         }
     ]);

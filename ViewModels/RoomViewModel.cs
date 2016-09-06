@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ViewModels
 {
@@ -6,11 +7,14 @@ namespace ViewModels
     {
         public int Id { get; set; }
         public FloorViewModel Floor { get; set; }
-        public int NumOfbeds { get; set; }
-        public  List<RentViewModel> Rents { get; set; }
-        public void DeleteRent(RentViewModel rent)
+        public int NumOfBeds { get; set; }
+        public List<RentViewModel> Rents { get; set; }
+
+        public int NumberOfFreeBedsAtThisMoment
         {
-            Rents.Remove(rent);
+            get { return NumOfBeds - Rents.Count(x => x.Active); }
         }
+
+        public int NumberOfFreeBedsForSelectedPeriod { get; set; }
     }
 }

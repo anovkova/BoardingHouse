@@ -11,8 +11,14 @@ namespace ViewModels
         public string Embg { get; set; }
         public string Email { get; set; }
         public virtual string PhoneNumber { get; set; }
+        public virtual string Address { get; set; }
         public string Password { get; set; }
         public List<RentViewModel> Rents { get; set; }
+
+        public string FullName
+        {
+            get { return string.Format("{0} {1}", FirstName, LastName); }
+        }
 
     }
 }

@@ -12,6 +12,12 @@ namespace BoardingHouse.Controllers
 {
     public class UserController : Controller
     {
+        private readonly UserService _userService;
+
+        public UserController()
+        {
+            _userService = new UserService();
+        }
         // GET: User
         public ActionResult Index()
         {
@@ -23,13 +29,13 @@ namespace BoardingHouse.Controllers
         {
             try
             {
+                var httpCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                if (httpCookie == null) return null;
 
-                var email = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
-                UserService service = new UserService();
+                var decryptCookie = FormsAuthentication.Decrypt(httpCookie.Value);
+                if (decryptCookie == null) return null;
 
-                return Json(service.GetLoginUser(email));
-               
-               
+                return Json(_userService.GetLoginUser(decryptCookie.Name));
             }
             catch(Exception ex)
             {
@@ -42,13 +48,7 @@ namespace BoardingHouse.Controllers
         {
             try
             {
-
-                var email = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
-                UserService service = new UserService();
-
-                return Json(service.GetCurrentRentByUser(user));
-
-
+                return Json(_userService.GetCurrentRentByUser(user));
             }
             catch (Exception ex)
             {
@@ -61,8 +61,7 @@ namespace BoardingHouse.Controllers
         {
             try
             {
-                UserService service = new UserService();
-                return Json(service.GetAllRentByUser(user));
+                return Json(_userService.GetAllRentByUser(user));
             }
             catch (Exception ex)
             {
@@ -73,8 +72,15 @@ namespace BoardingHouse.Controllers
         [HttpPost]
         public JsonResult UploadPicture()
         {
-            var file = Request.Files[0];
-            return Json(true);
+            try
+            {
+                var file = Request.Files[0];
+                return Json(true);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

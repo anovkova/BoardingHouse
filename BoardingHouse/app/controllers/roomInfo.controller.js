@@ -1,34 +1,20 @@
 ﻿/// <reference path="../templetes/admin/addContact.html" />
 'use strict';
 
-angular.module('adminModule').controller('roomInfoController',
- [
-     '$scope',
-    'adminService',
-     'room',
-      '$uibModalInstance',
-      'reservation',
- 
-        function ($scope, adminService, room, $uibModalInstance, reservation) {
-          debugger;
+angular.module('adminModule').controller('roomInfoController', [ '$scope', 'adminService', 'room', '$uibModalInstance',
+        function ($scope, adminService, room, $uibModalInstance) {
           $scope.room = room;
-          $scope.reservation = reservation;
-          $scope.msg = "";
 
           $scope.cancel = function () {
-              $uibModalInstance.close();
+              $uibModalInstance.dismiss();
           };
-          $scope.makeAreservation = function () {
-              adminService.makeAReservation($scope.reservation, function (data) {
-                  if (data == "False")
-                      $scope.msg = "Веќе постои резервација за тој корисник во тој период";
-                  else {
-                      $uibModalInstance.close();
-                     
-                  }
-                
-              }, function () { });
 
+          $scope.activeOnly = function (rent) {
+              return rent.Active;
+          }
+
+          $scope.makeReservation = function () {
+              $uibModalInstance.close(true);
           }
       }
  ]);

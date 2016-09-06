@@ -8,19 +8,22 @@
       <column name="RoleId" sql-type="int" not-null="true" />
     </many-to-one>
     <property name="FirstName">
-      <column name="FirstName" sql-type="nvarchar" not-null="false" />
+      <column name="FirstName" sql-type="nvarchar" not-null="true" />
     </property>
     <property name="LastName">
-      <column name="LastName" sql-type="nvarchar" not-null="false" />
+      <column name="LastName" sql-type="nvarchar" not-null="true" />
     </property>
     <property name="Embg">
       <column name="EMBG" sql-type="nvarchar" not-null="true" />
     </property>
     <property name="PhoneNumber">
-      <column name="PhoneNumber" sql-type="nvarchar" not-null="true" />
+      <column name="PhoneNumber" sql-type="nvarchar" not-null="false" />
     </property>
     <property name="Email">
       <column name="Email" sql-type="nvarchar" not-null="true" />
+    </property>
+    <property name="Address">
+      <column name="Address" sql-type="nvarchar" not-null="false" />
     </property>
     <property name="Password">
       <column name="Password" sql-type="nvarchar" not-null="true" />

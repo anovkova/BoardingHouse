@@ -11,20 +11,19 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="rent in room.Rents | filter: activeOnly">
+            <tr ng-repeat="rent in room.Rents | filter: forPeriod">
                 <td>{{rent.User.FirstName + " " + rent.User.LastName}}</td>
                 <td>{{rent.DateStart | jsDate}}</td>
                 <td>{{rent.DateEnd | jsDate}}</td>
             </tr>
         </tbody>
-        <tbody ng-if="!!!(room.Rents | filter: activeOnly).length">
+        <tbody ng-if="!!!(room.Rents | filter: forPeriod).length">
             <tr>
-                <td colspan="3">Нема моментални резервации за оваа соба</td>
+                <td colspan="3">Нема резервации за избраниот период во оваа соба</td>
             </tr>
         </tbody>
     </table>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success" ng-click="makeReservation()">Резервирај</button>
     <button class="btn btn-info" type="button" ng-click="cancel()">Затвори</button>
 </div>

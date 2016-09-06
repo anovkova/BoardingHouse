@@ -1,33 +1,29 @@
-﻿using Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
+using Domain;
 
 namespace Service
 {
     public class MailProvider
     {
-        public void SendMailToUser( User user)
+        public void SendMailToUser(User user)
         {
             try
             {
                 var fromAddress = new MailAddress("aleksandra.novkova.test@gmail.com");
                 var fromPassword = "Aleksandra!6123";
-                var toAddress = new MailAddress(user.Email.ToString());
+                var toAddress = new MailAddress(user.Email);
 
                 string subject = "Нов корисник";
                 string body = "Bodi";
 
-                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient
+                SmtpClient smtp = new SmtpClient
                 {
                     Host = "smtp.gmail.com",
                     Port = 587,
                     EnableSsl = true,
-                    DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
 
@@ -37,12 +33,8 @@ namespace Service
                 {
                     Subject = subject,
                     Body = body
-                })
-
-
-                    smtp.Send(message);
+                }) smtp.Send(message);
             }
-
             catch (Exception ex)
             {
                 throw;
@@ -60,12 +52,12 @@ namespace Service
                 string subject = "Нов корисник";
                 string body = "Bodi";
 
-                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient
+                SmtpClient smtp = new SmtpClient
                 {
                     Host = "smtp.gmail.com",
                     Port = 587,
                     EnableSsl = true,
-                    DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
 
@@ -75,12 +67,8 @@ namespace Service
                 {
                     Subject = subject,
                     Body = body
-                })
-
-
-                    smtp.Send(message);
+                }) smtp.Send(message);
             }
-
             catch (Exception ex)
             {
                 throw;

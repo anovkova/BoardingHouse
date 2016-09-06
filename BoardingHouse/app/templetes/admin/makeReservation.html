@@ -1,0 +1,33 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Креирај резервација</h3>
+</div>
+<div class="modal-body">
+    <select ng-attr-title="Корисник"
+            ng-model="reservation.User"
+            ng-options="user.FullName for user in users track by user.Id"
+            class="form-control input-group" style="margin-bottom: 10px">
+        <option value="">Изберете корисник</option>
+    </select>
+
+    <p class="input-group">
+        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="reservation.DateStart" is-open="dateStart.opened" />
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="dateStartOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+    </p>
+
+    <p class="input-group">
+        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="reservation.DateEnd" is-open="dateEnd.opened" />
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="dateEndOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+    </p>
+
+    <div class="alert alert-danger" ng-if="!!errorMsg">
+        <strong>{{errorMsg}}</strong>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" type="button" ng-click="makeReservation()">Резервирај</button>
+    <button class="btn btn-danger" type="button" ng-click="cancel()">Откажи</button>
+</div>

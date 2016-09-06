@@ -4,18 +4,21 @@
     Layout = "~/Views/_LayoutPage.cshtml";
 }
 
-<div class="col-lg-6 col-lg-offset-3" ng-controller="mainController">
+<div class="col-lg-6 col-lg-offset-3">
     <form name="loginForm">
         <div class="form-group">
-            <label for="exampleInputEmail1">Е-маил адреса</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Е-маил адреса" ng-model="email" required  ng-class="{ 'has-error' : loginFrom.email.$invalid &&  !loginFrom.email.$pristine }">
+            <label for="email">Е-маил адреса</label>
+            <input type="email" class="form-control" name="Email" id="email" placeholder="Е-маил адреса" ng-model="user.Email" required  ng-class="{ 'has-error' : loginForm.Email.$invalid &&  !loginForm.Email.$pristine }">
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Лозинка</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Лозинка" ng-model="password" required  ng-class="{ 'has-error' : loginFrom.password.$invalid &&  !loginFrom.password.$pristine }">
+            <label for="password">Лозинка</label>
+            <input type="password" class="form-control" name="Password" id="password" placeholder="Лозинка" ng-model="user.Password" required  ng-class="{ 'has-error' : loginForm.Password.$invalid &&  !loginForm.Password.$pristine }">
         </div>
 
         <button class="btn btn-default" ng-click="login(loginForm)">Најави се</button>
     </form>
-   <label>{{msg}}</label>
+    <div class="clearfix"></div>
+    <div class="alert alert-danger" ng-if="!!msg" style="margin-top: 5px;">
+        <strong>{{msg}}</strong>
+    </div>
 </div>

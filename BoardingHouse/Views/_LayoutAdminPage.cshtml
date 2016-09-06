@@ -7,13 +7,15 @@
 
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
-   
+
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/css/styles.css" rel="stylesheet" />
 </head>
 <body>
     <div ng-app="adminModule">
+        <div ng-controller="adminController">
             @RenderBody()
+        </div>
     </div>
 
     <script src="~/scripts/jquery-3.1.0.min.js"></script>
@@ -29,6 +31,8 @@
     <script type="text/javascript" src="@Href("/app/controllers/addUser.controller.js")"></script>
     <script type="text/javascript" src="@Href("/app/controllers/roomInfo.controller.js")"></script>
     <script type="text/javascript" src="@Href("/app/controllers/floor.controller.js")"></script>
+    <script type="text/javascript" src="@Href("/app/controllers/makeReservation.controller.js")"></script>
+    <script type="text/javascript" src="@Href("/app/controllers/roomInfoForPeriod.controller.js")"></script>
 
     <script type="text/javascript" src="@Href("/app/filters/filters.js")"></script>
     <script type="text/javascript" src="@Href("/app/services/admin.service.js")"></script>

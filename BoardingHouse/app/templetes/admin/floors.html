@@ -1,73 +1,85 @@
-﻿<!--info about rooms-->
-<div ng-if="showRoom" ng-repeat="floor in floors">
-        
-        **На {{floor.NumOfFloor}} кат има {{freeRooms[floor.NumOfFloor-1]}} соби.
-    </div>
-
-<!--Listing the floors and button for reservation-->
-<div class="row">
-    <div ng-repeat="floor in floors">
-        <div class="col-lg-3">
-            <div class="btn btn-default btn-block" ng-click="update(floor)">{{floor.NumOfFloor+" Кат"}}</div>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="btn btn-default btn-block" ng-click="reserveRoom()">Резервирај соба</div>
-    </div>
-</div>
-
-
-<!--showing the rooms from selected floor-->
-<div ng-if="showRoom">
-    <div ng-repeat="room in RoomsOfSelectedFloor">
-        <div class="col-lg-3 text-center" style="margin:5px;" ng-class='rowClass(room)' ng-click="roomInfo(room)">Соба број: {{room.Id +" "}} <br />{{(room.Rents.length) +"/"+ room.NumOfbeds}}</div>
-    </div>
-</div>
-
-<div ng-if="!showRoom" style="margin-top:15px">
-
-  
-<div class="row">
-        <div class="col-lg-3 text-center">
-            <select ng-model="selectedUser" ng-change="user(selectedUser)" style="padding:5px;">
-                <option ng-repeat="x in users" value="{{x.Id}}">{{x.FirstName+" "+x.LastName}}</option>
-            </select>
-        </div>
-
-        <div class="col-lg-3 text-center">
-            <p class="input-group">
-                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="from" is-open="popup1.opened" ng-change="dateFrom(from)" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+﻿<div>
+    <uib-tabset active="active" justified="true">
+        <uib-tab index="0" heading="Информации за соби">
+            <div style="margin-top: 10px">
+                <!--info about rooms-->
+                <uib-accordion close-others="true">
+                    <uib-accordion-group ng-repeat="floor in floors" is-open="floor.isopen" ng-click="floot.isopen=!floor.isopen">
+                        <uib-accordion-heading>
+                            На {{floor.NumOfFloor}} кат има {{floor.NumberOfFreeRoomsAtThisMoment}} слободни соби.
+                            <i class="pull-right glyphicon"
+                               ng-class="{'glyphicon-chevron-up': floor.isopen, 'glyphicon-chevron-down': !floor.isopen}">
+                            </i>
+                        </uib-accordion-heading>
+                        <div ng-repeat="room in floor.Rooms" ng-if="!!floor.Rooms.length">
+                            <div class="col-lg-3 text-center" style="margin: 5px;" ng-class="!room.NumberOfFreeBedsAtThisMoment ? 'noFreeBeds' : 'hasFreeBeds'" ng-click="roomInfo(room)">
+                                <span>
+                                    Соба број: {{room.Id}}
+                                    <br />
+                                    {{room.NumOfBeds - room.NumberOfFreeBedsAtThisMoment}}/{{room.NumOfBeds}}
+                                </span>
+                            </div>
+                        </div>
+                        <div ng-if="!floor.Rooms.length">
+                            <span>
+                                Нема соби на избраниот спрат.
+                            </span>
+                        </div>
+                    </uib-accordion-group>
+                </uib-accordion>
+            </div>
+        </uib-tab>
+        <uib-tab index="1" heading="Резервација">
+            <div class="row" style="margin-top: 10px">
+                <span class="col-lg-4">
+                    <select ng-model="search.User"
+                            ng-options="user.FullName for user in users track by user.Id"
+                            class="form-control" style="margin-bottom: 10px">
+                        <option value="">Изберете корисник</option>
+                    </select>
                 </span>
-            </p>
-        </div>
 
-        <div class="col-lg-3 text-center">
-            <p class="input-group">
-                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="to" is-open="popup2.opened" ng-change="dateTo(to)" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
-                </span>
-            </p>
-        </div>
+                <p class="input-group col-lg-4" style="float: left !important">
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="search.DateStart" is-open="dateStart.opened"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="dateStartOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
 
-        <div class="col-lg-3 text-center">
-            <select ng-model="floorS" ng-change="checkRooms(floorS)" style="padding:5px;">
-                <option ng-repeat="floor in floors" value="{{floor.Id}}">{{floor.NumOfFloor+" Кат"}}</option>
-            </select>
-        </div>
-</div>
-   
-   
-  <div class="row" ng-if="showAvailableRoom">
-      <div ng-repeat="room in aRooms">
-          <div class="col-lg-3 text-center" style="margin:5px;" ng-class='rowClass(room)' ng-click="roomInfo(room)">Соба број: {{room.Id +" "}} <br />{{(room.Rents.length) +"/"+ room.NumOfbeds}}</div>
-      </div> 
-      <div ng-if="aRooms.length==0">Нема слободни соби на избраниот кат</div>   
-  </div>
- 
-    <!--<div class="col-lg-2">
-        <button class="btn btn-success" ng-click="makeAreservation()" ng-disabled="disabled"> Резервирај</button>
-    </div>-->
+                <p class="input-group col-lg-4" style="float: left !important; padding-left: 15px">
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="search.DateEnd" is-open="dateEnd.opened"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="dateEndOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+            <div style="margin-top: 10px">
+                <!--info about rooms-->
+                <uib-accordion close-others="true">
+                    <uib-accordion-group ng-repeat="floor in searchFloors" is-open="floor.isopen" ng-click="floot.isopen=!floor.isopen">
+                        <uib-accordion-heading>
+                            На {{floor.NumOfFloor}} кат има {{floor.NumberOfFreeRoomsForSelectedPeriod}} слободни соби.
+                            <i class="pull-right glyphicon"
+                               ng-class="{'glyphicon-chevron-up': floor.isopen, 'glyphicon-chevron-down': !floor.isopen}">
+                            </i>
+                        </uib-accordion-heading>
+                        <div ng-repeat="room in floor.Rooms" ng-if="!!floor.Rooms.length">
+                            <div class="col-lg-3 text-center" style="margin: 5px;" ng-class="!room.NumberOfFreeBedsForSelectedPeriod ? 'noFreeBeds' : 'hasFreeBeds'" ng-click="roomInfoForPeriod(room)">
+                                <span>
+                                    Соба број: {{room.Id}}
+                                    <br />
+                                    {{room.NumOfBeds - room.NumberOfFreeBedsForSelectedPeriod}}/{{room.NumOfBeds}}
+                                </span>
+                            </div>
+                        </div>
+                        <div ng-if="!floor.Rooms.length">
+                            <span>
+                                Нема соби на избраниот спрат.
+                            </span>
+                        </div>
+                    </uib-accordion-group>
+                </uib-accordion>
+            </div>
+        </uib-tab>
+    </uib-tabset>
 </div>

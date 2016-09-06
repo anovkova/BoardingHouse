@@ -1,13 +1,8 @@
 ﻿'use strict';
 
-angular.module('adminModule').controller('adminController',
- [
-     '$scope',
-    'adminService',
-      '$uibModal',
+angular.module('adminModule').controller('adminController', [ '$scope', 'adminService', '$uibModal',
       function ($scope, adminService, $uibModal) {
           $scope.users = null;
-         
 
           $scope.loadUsers = function () {
               adminService.getUsers(function (data) {
@@ -21,10 +16,10 @@ angular.module('adminModule').controller('adminController',
                   window.location.href = data;
               }, function () { });
           }
-          
+
           $scope.AddUser = function (selectedUser) {
               var modalInstance = $uibModal.open({
-                  templateUrl: '/app/templetes/admin/addContact.html',
+                  templateUrl: '/app/templetes/admin/addUser.html',
                   backdrop: 'static',
                   windowClass: 'modal',
                   scope: $scope,
@@ -35,6 +30,7 @@ angular.module('adminModule').controller('adminController',
                               FirstName: "",
                               LastName: "",
                               PhoneNumber: "",
+                              Address: "",
                               Embg: "",
                               Email: "",
                               Password: "",

@@ -17,143 +17,71 @@ namespace Service
         private IRepository<Rent> _rentRepository;
         private IRepository<Role> _roleRepository;
 
-        public UserService()
-        {
-
-        }
-      
         public UserViewModel Login(UserViewModel user)
         {
             using (ISession session = NHibernateHelper.OpenSession())
-            using (ITransaction transaction = session.BeginTransaction())
+            using (session.BeginTransaction())
             {
                 _userRepository = new Repository<User>(session);
 
-                var users = _userRepository.All().ToList();
-                User loginUser = _userRepository.All().Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
+                var loginUser = _userRepository.All().FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password);
 
-                _floorRepository = new Repository<Floor>(session);
-                var floors = _floorRepository.All().ToList();
-                Floor floor1 = _floorRepository.FindBy(1);
+                if (loginUser == null)
+                    throw new UnauthorizedAccessException();
 
-                _roomRepository = new Repository<Room>(session);
-                var rooms = _roomRepository.All().ToList();
-                Room room1 = _roomRepository.FindBy(1);
-
-                _rentRepository = new Repository<Rent>(session);
-                var rent1 = _rentRepository.FindBy(1);
-
-                if (loginUser != null)
-                    return loginUser.ToUserViewModel();
-                else return null;
+                return loginUser.ToUserViewModel();
             }
-       
-
         }
 
-        public List<UserViewModel> getAllUsers()
+        public List<UserViewModel> GetAllUsers()
         {
             using (ISession session = NHibernateHelper.OpenSession())
-            using (ITransaction transaction = session.BeginTransaction())
+            using (session.BeginTransaction())
             {
                 _userRepository = new Repository<User>(session);
-                var users = _userRepository.All().Where(x => x.Role.Id == 2).ToList();
+                var users =
+                    _userRepository.All()
+                        .Where(x => x.Role.Id == (int)RoleEnum.User)
+                        .Select(x => x.ToUserViewModel())
+                        .ToList();
 
-                return users.Select(x => x.ToUserViewModel()).ToList();
+                return users;
             }
-          
         }
 
-        public List<CurrentRent> GetAllRents()
+        public List<RentSimpleModel> GetAllRents()
         {
             using (ISession session = NHibernateHelper.OpenSession())
-            using (ITransaction transaction = session.BeginTransaction())
+            using (session.BeginTransaction())
             {
                 _rentRepository = new Repository<Rent>(session);
-                var all = _rentRepository.All().ToList();
-                return all.Select(x => x.ToCurrentRentViewModel()).OrderByDescending(x => x.DateStart).ToList();
-            }
+                var all =
+                    _rentRepository.All()
+                        .OrderByDescending(x => x.DateStart)
+                        .ToList()
+                        .Select(x => x.ToSimpleModel()).ToList();
 
+                return all;
+            }
         }
-        
+
         public List<FloorViewModel> GetFloors()
         {
             using (ISession session = NHibernateHelper.OpenSession())
-            using (ITransaction transaction = session.BeginTransaction())
+            using (session.BeginTransaction())
             {
                 _floorRepository = new Repository<Floor>(session);
-                var allFloors =  _floorRepository.All();
-                var floors = allFloors.Select(x => x.ToFloorViewModel()).ToList();
- 
-                return floors;
+                var allFloors = _floorRepository.All().Select(x => x.ToFloorViewModel()).ToList();
+
+                return allFloors;
             }
         }
-
-        public FloorViewModel GetFloorsByNumOfFloor(FloorViewModel floor)
+        
+        public void MakeAReservation(ReservationViewModel reservation)
         {
-            using (ISession session = NHibernateHelper.OpenSession())
-            using (ITransaction transaction = session.BeginTransaction())
-            {
-                _floorRepository = new Repository<Floor>(session);        
-                var floorView = _floorRepository.All().Where(x => x.NumOfFloor == floor.NumOfFloor).FirstOrDefault().ToFloorViewModel();
+            if (reservation.DateEnd.HasValue && reservation.DateStart.Date > reservation.DateEnd.Value.Date)
+                throw new ApplicationException("DATE_START_NOT_VALID");
 
-                foreach (var room in floorView.Rooms)
-                {
-                    foreach (var rent in room.Rents.ToList())
-                        if (!CheckRent(rent))
-                        {
-                            room.DeleteRent(rent);
-                        }
-                }
-            
-                return floorView;
-            }
-        }
-
-        public List<RoomViewModel> ActiveRents(List<RoomViewModel> rooms)
-        {
-            foreach(var room in rooms)
-            {
-                foreach (var rent in room.Rents)
-                    if (!CheckRent(rent))
-                        room.Rents.Remove(rent);  
-            }
-            return rooms;
-        }
-
-        public List<RoomViewModel> GetFreeRoom(ReservationViewModel resrvation)
-        {
-            using (ISession session = NHibernateHelper.OpenSession())
-            using (ITransaction transaction = session.BeginTransaction())
-            {
-                _floorRepository = new Repository<Floor>(session);
-                var floor = _floorRepository.FindBy(resrvation.FloorId);
-
-                List<RoomViewModel> availableRooms = new List<RoomViewModel>();
-                if (resrvation.DateEnd > resrvation.DateStart && resrvation.DateStart.Date>= DateTime.Now.Date)
-                {
-                    foreach (var room in floor.Rooms.ToList())
-                    {
-                        int count = 0;
-                        foreach (var rent in room.Rents.ToList())
-                        {
-                            if (InValidRent(rent.DateStart.Value, rent.DateEnd.Value, resrvation.DateStart, resrvation.DateEnd))
-                               count++;
-                            if (rent.DateEnd < resrvation.DateStart)
-                                room.Rents.Remove(rent);
-                        }
-                        if (count < room.NumOfBeds)
-                            availableRooms.Add(room.ToRoomViewModel());       
-                    }
-                    return availableRooms;
-                }
-                return null;
-               
-            }
-        }
-
-        public bool makeAReservation(ReservationViewModel reservation)
-        {
             using (ISession session = NHibernateHelper.OpenSession())
             using (ITransaction transaction = session.BeginTransaction())
             {
@@ -161,49 +89,45 @@ namespace Service
                 _userRepository = new Repository<User>(session);
                 _roomRepository = new Repository<Room>(session);
 
-                Rent rent = new Rent();
-                rent.User = _userRepository.FindBy(reservation.UserId);
-                rent.DateEnd = reservation.DateEnd;
-                rent.DateStart = reservation.DateStart;
-                rent.Room = _roomRepository.FindBy(reservation.RoomId);
+                var room = _roomRepository.FindBy(reservation.RoomId);
+                if (room == null)
+                    throw new ApplicationException("ROOM_DOES_NOT_EXIST");
+                var numberOfRents = 0;
 
-                var usersRent = _rentRepository.All().Where(x => x.User.Id == reservation.UserId).ToList();
-                bool flag = true;
-                foreach(var tmpRent in usersRent)
+                foreach (var roomRent in room.Rents)
                 {
-                    if (InValidRent(tmpRent.DateStart.Value, tmpRent.DateEnd.Value, reservation.DateStart, reservation.DateEnd))
-                        flag = false;
-                }
-                if (flag)
-                {
-                    _rentRepository.Add(rent);
-                    transaction.Commit();
-                    
-                    MailProvider mailProvider = new MailProvider();
-                    mailProvider.SuccessReservation(rent);
-                  
+                    if (OverlappingPeriods(reservation.DateStart, reservation.DateEnd, roomRent.DateStart, roomRent.DateEnd))
+                        numberOfRents++;
                 }
 
-                return flag;
-            
+                if (numberOfRents >= room.NumOfBeds)
+                    throw new ApplicationException("NOT_EMPTY_BED");
 
+                var user = _userRepository.FindBy(reservation.UserId);
+
+                if (user == null)
+                    throw new ApplicationException("USER_NOT_FOUND");
+
+                foreach (var userRent in user.Rents)
+                {
+                    if (OverlappingPeriods(reservation.DateStart, reservation.DateEnd, userRent.DateStart, userRent.DateEnd))
+                        throw new ApplicationException("USER_ALREADY_HAS_RENT_IN_SELECTED_PERIOD");
+                }
+
+                var rent = new Rent
+                {
+                    User = user,
+                    Room = room,
+                    DateStart = reservation.DateStart,
+                    DateEnd = reservation.DateEnd
+                };
+
+                _rentRepository.Add(rent);
+                transaction.Commit();
+
+                MailProvider mailProvider = new MailProvider();
+                mailProvider.SuccessReservation(rent);
             }
-        }
-
-        public bool InValidRent(DateTime rentStartDate, DateTime rentEndDate, DateTime startDate, DateTime endDate)
-        {
-            return ((startDate.Date >= rentStartDate.Date && startDate.Date <= rentEndDate.Date) || 
-                    (endDate.Date >= rentStartDate.Date && endDate.Date <= rentEndDate.Date) ||
-                    (startDate.Date <= rentStartDate.Date && endDate.Date >= rentEndDate.Date));
-        }
-
-        public bool CheckRent(RentViewModel rent)
-        {
-            DateTime current = DateTime.Now;
-         
-            if (rent.DateStart > current || rent.DateEnd < current)
-                    return false;            
-            return true;
         }
 
         public void AddUser(UserViewModel user)
@@ -213,23 +137,16 @@ namespace Service
             {
                 _userRepository = new Repository<User>(session);
                 _roleRepository = new Repository<Role>(session);
-                _rentRepository = new Repository<Rent>(session);
-
 
                 if (_userRepository.All().Any(x => x.Email.ToLower() == user.Email.ToLower() && x.Id != user.Id))
-                    throw new ApplicationException("Existing user");
+                    throw new ApplicationException("EXISTING_USER");
 
-                //user.Rents = new List<RentViewModel>();
-
-                //foreach (var rent in _rentRepository.All().Where(x => x.User.Id == user.Id).ToList())
-                //    user.Rents.Add(rent.toRentViewModel());
-
-                //var userDomain = user.toUserDomainModel();
                 if (user.Role == null)
-                    throw new ApplicationException("Role must be selected");
+                    throw new ApplicationException("ROLE_NOT_SELECTED");
+
                 var role = _roleRepository.FindBy(user.Role.Id);
                 if (role == null)
-                    throw new ApplicationException("Role does not exist");
+                    throw new ApplicationException("ROLE_DOES_NOT_EXIST");
 
                 var userDomain = _userRepository.FindBy(user.Id) ?? new User();
 
@@ -237,6 +154,7 @@ namespace Service
                 userDomain.LastName = user.LastName;
                 userDomain.Password = user.Password;
                 userDomain.PhoneNumber = user.PhoneNumber;
+                userDomain.Address = user.Address;
                 userDomain.Email = user.Email;
                 userDomain.Embg = user.Embg;
                 userDomain.Role = role;
@@ -249,73 +167,124 @@ namespace Service
             }
         }
 
-        public List<UserViewModel> UpdateUser(UserViewModel user)
-        {
-            using (ISession session = NHibernateHelper.OpenSession())
-            using (ITransaction transaction = session.BeginTransaction())
-            {
-                _userRepository = new Repository<User>(session);
-                _roleRepository = new Repository<Role>(session);
-
-
-
-                var userDb = _userRepository.All().Where(x => x.Email == user.Email).FirstOrDefault();
-                if (userDb != null)
-                {
-                    _userRepository.Update(user.ToUserDomainModel());
-                    transaction.Commit();
-                }
-
-                return getAllUsers();
-            }
-            return null;
-        }
-
         public UserViewModel GetLoginUser(string email)
         {
             using (ISession session = NHibernateHelper.OpenSession())
-            using (ITransaction transaction = session.BeginTransaction())
+            using (session.BeginTransaction())
             {
                 _userRepository = new Repository<User>(session);
 
-                var user = _userRepository.All().Where(x => x.Email == email).FirstOrDefault();
+                var user = _userRepository.All().FirstOrDefault(x => x.Email == email);
 
-                if (user != null)
-                    return user.ToUserViewModel();
+                if (user == null)
+                    throw new ApplicationException("USER_NOT_FOUND");
 
-                return null;
+                return user.ToUserViewModel();
             }
         }
 
-        public CurrentRent GetCurrentRentByUser(UserViewModel user)
+        public RentSimpleModel GetCurrentRentByUser(UserViewModel model)
         {
             using (ISession session = NHibernateHelper.OpenSession())
-            using (ITransaction transaction = session.BeginTransaction())
+            using (session.BeginTransaction())
             {
-                _rentRepository = new Repository<Rent>(session);
-                DateTime now = DateTime.Now;
+                var user = _userRepository.FindBy(model.Id);
+                if (user == null)
+                    throw new ApplicationException("USER_NOT_FOUND");
 
-               return  _rentRepository.All().Where(x => x.User == user.ToUserDomainModel() && now >= x.DateStart && now <= x.DateEnd).SingleOrDefault().ToCurrentRentViewModel();
+                var activeRent = user.Rents.FirstOrDefault(x => x.Active);
 
-
+                return activeRent != null ? activeRent.ToSimpleModel() : null;
             }
         }
 
-        public List<CurrentRent> GetAllRentByUser(UserViewModel user)
+        public List<RentSimpleModel> GetAllRentByUser(UserViewModel model)
         {
             using (ISession session = NHibernateHelper.OpenSession())
-            using (ITransaction transaction = session.BeginTransaction())
+            using (session.BeginTransaction())
             {
-                _rentRepository = new Repository<Rent>(session);
-                DateTime now = DateTime.Now;
+                _userRepository = new Repository<User>(session);
 
-                var rents= _rentRepository.All().Where(x => x.User == user.ToUserDomainModel() && now > x.DateEnd).ToList();
+                var user = _userRepository.FindBy(model.Id);
 
-                return rents.Select(x => x.ToCurrentRentViewModel()).ToList();
+                if (user == null)
+                    throw new ApplicationException("USER_NOT_FOUND");
 
-
+                return user.Rents.Select(x => x.ToSimpleModel()).ToList();
             }
         }
 
+        public List<FloorViewModel> SearchFreeFloors(ReservationViewModel model)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            using (session.BeginTransaction())
+            {
+                _floorRepository = new Repository<Floor>(session);
+                _userRepository = new Repository<User>(session);
+                var floors = _floorRepository.All().Select(x => x.ToFloorViewModel()).ToList();
+                var user = _userRepository.FindBy(model.UserId);
+
+                if(user == null)
+                    throw new ApplicationException("USER_NOT_FOUND");
+
+                foreach (var rent in user.Rents)
+                {
+                    if(OverlappingPeriods(model.DateStart, model.DateEnd, rent.DateStart, rent.DateEnd))
+                        return new List<FloorViewModel>();
+                }
+                
+                foreach (var floor in floors.ToList())
+                {
+                    foreach (var room in floor.Rooms.ToList())
+                    {
+                        var numberOfRents = 0;
+                        foreach (var rent in room.Rents.ToList())
+                        {
+                            if (OverlappingPeriods(model.DateStart, model.DateEnd, rent.DateStart, rent.DateEnd))
+                                numberOfRents++;
+                        }
+
+                        if (numberOfRents >= room.NumOfBeds)
+                        {
+                            floor.Rooms.Remove(room);
+                        }
+                        else
+                        {
+                            room.NumberOfFreeBedsForSelectedPeriod = room.NumOfBeds - numberOfRents;
+                        }
+                    }
+                }
+
+                foreach (var floor in floors.ToList())
+                {
+                    if (floor.Rooms == null || floor.Rooms.Count == 0)
+                    {
+                        floors.Remove(floor);
+                    }
+                }
+
+                return floors;
+            }
+        }
+
+        private bool OverlappingPeriods(DateTime rentStartDate, DateTime? rentEndDate, DateTime startDate, DateTime? endDate)
+        {
+            if (!rentEndDate.HasValue)
+            {
+                if (!endDate.HasValue)
+                    return true;
+
+                return rentStartDate.Date <= endDate.Value;
+            }
+
+            if (!endDate.HasValue)
+            {
+                return rentEndDate.Value.Date >= startDate.Date;
+            }
+
+            return (startDate.Date >= rentStartDate.Date && startDate.Date <= rentEndDate.Value.Date) ||
+                    (endDate.Value.Date >= rentStartDate.Date && endDate.Value.Date <= rentEndDate.Value.Date) ||
+                    (startDate.Date <= rentStartDate.Date && endDate.Value.Date >= rentEndDate.Value.Date);
+        }
     }
 }

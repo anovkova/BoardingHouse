@@ -12,16 +12,13 @@
 <body>
     <div ng-app="mainModule">
         <div ng-controller="mainController">
-            {{masterValue}}
+            @RenderBody()
         </div>
-
-
-        <div>@RenderBody()</div>
-
     </div>
+
     <script src="~/scripts/angular.min.js"></script>
     <script src="~/scripts/angular-route.min.js"></script>
- 
+
     <script type="text/javascript" src="@Href("/app/modules/main.module.js")"></script>
     <script type="text/javascript" src="@Href("/app/controllers/main.controller.js")"></script>
     <script type="text/javascript" src="@Href("/app/services/app.service.js")"></script>

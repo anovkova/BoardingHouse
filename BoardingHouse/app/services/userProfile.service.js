@@ -74,9 +74,7 @@ angular.module('userModule').factory('userService',
                     error(function (error) {
                         errorcb(error);
                     });
-                },
-
-
+                }
             };
         }
     ]);
