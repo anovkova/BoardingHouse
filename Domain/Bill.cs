@@ -1,9 +1,9 @@
 ﻿namespace Domain
 {
-    public class Account
+    public class Bill
     {
         public virtual int Id { get; set; }
-        public virtual AccountType AccountType { get; set; }
+        public virtual BillType BillType { get; set; }
         public virtual Rent Rent { get; set; }
         public virtual Status Status { get; set; }
         public virtual string Description { get; set; }

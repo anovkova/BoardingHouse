@@ -9,7 +9,7 @@ namespace ViewModels
         public UserViewModel User { get; set; }
         public DateTime DateStart { get; set; }
         public DateTime? DateEnd { get; set; }
-        public List<AccountViewModel> Accounts { get; set; }
+        public List<BillViewModel> Accounts { get; set; }
         public bool Active { get; set; }
     }
 }

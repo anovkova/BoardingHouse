@@ -1,8 +1,8 @@
 ﻿namespace Domain
 {
-    public class AccountType
+    public class BillType
     {
-        public AccountType()
+        public BillType()
         {
         }
         public virtual int Id { get; set; }

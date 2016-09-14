@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountViewModel.cs" />
+    <Compile Include="BillMergeModel.cs" />
+    <Compile Include="BillTypeViewModel.cs" />
+    <Compile Include="BillViewModel.cs" />
     <Compile Include="CurrentRent.cs" />
     <Compile Include="FloorViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

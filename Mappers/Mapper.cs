@@ -45,20 +45,29 @@ namespace Mappers
             };
         }
 
-        public static AccountViewModel ToAccountViewModel(this Account account)
+        public static BillViewModel ToAccountViewModel(this Bill bill)
         {
-            var model =  new AccountViewModel
+            var model =  new BillViewModel
             {
-                Id = account.Id,
-                Amount = account.Amount,
-                Description = account.Description,
-                Month = account.Month
+                Id = bill.Id,
+                Amount = bill.Amount,
+                Description = bill.Description,
+                Month = bill.Month
             };
 
-            if (account.Status != null)
+            if (bill.BillType != null)
             {
-                model.Status = account.Status.ToStatusViewModel();
-                model.Rent = account.Rent.ToRentViewModel();
+                model.BillType = bill.BillType.ToModel();
+            }
+
+            if (bill.Status != null)
+            {
+                model.Status = bill.Status.ToStatusViewModel();
+            }
+
+            if (bill.Rent != null)
+            {
+                model.Rent = bill.Rent.ToRentViewModel();
             }
 
             return model;
@@ -138,6 +147,17 @@ namespace Mappers
             {
                 model.Rooms = floor.Rooms.Select(x => x.ToRoomViewModel()).ToList();
             }
+
+            return model;
+        }
+
+        public static BillTypeViewModel ToModel(this BillType type)
+        {
+            var model = new BillTypeViewModel
+            {
+                Id = type.Id,
+                Name = type.Name
+            };
 
             return model;
         }

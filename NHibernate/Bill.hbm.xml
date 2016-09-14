@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <hibernate-mapping assembly="Domain" namespace="Domain" xmlns="urn:nhibernate-mapping-2.2">
-  <class name="Account" table="Account" lazy="true" >
+  <class name="Bill" table="Account" lazy="true" >
     <id name="Id" column="Id">
       <generator class="identity" />
     </id>
@@ -8,7 +8,7 @@
       <column name="Status" sql-type="int" not-null="true" />
     </many-to-one>
 
-    <many-to-one name="AccountType">
+    <many-to-one name="BillType">
       <column name="TypeId" sql-type="int" not-null="true" />
     </many-to-one>
    

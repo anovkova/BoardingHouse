@@ -53,7 +53,7 @@
     <Compile Include="Repositories\Repository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Account.hbm.xml" />
+    <EmbeddedResource Include="Bill.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Floor.hbm.xml" />
@@ -79,7 +79,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AccountType.hbm.xml" />
+    <EmbeddedResource Include="BillType.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -963,6 +963,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="BillTemplates\EVN.doc" />
     <None Include="scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="scripts\jquery-3.1.0.js" />
     <Content Include="scripts\jquery-3.1.0.min.js" />
@@ -980,6 +981,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BillController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValidateAntiForgeryTokensAttribute.cs" />
@@ -1026,6 +1028,7 @@
   <ItemGroup>
     <Folder Include="app\directives\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Bill\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mappers\Mappers.csproj">

@@ -16,9 +16,9 @@
      <many-to-one name="Room">
       <column name="RoomId" sql-type="int" not-null="false" />
     </many-to-one>
-    <bag name="Accounts">
+    <bag name="Bills">
       <key column="RentId" />
-      <one-to-many class="Account" />
+      <one-to-many class="Bill" />
     </bag>
   </class>
 </hibernate-mapping>
