@@ -11,15 +11,20 @@
     <many-to-one name="BillType">
       <column name="TypeId" sql-type="int" not-null="true" />
     </many-to-one>
-   
-    <property name="Description">
-      <column name="Description" sql-type="nvarchar" not-null="false" />
-    </property>
-    <property name="Amount">
+   <property name="Amount">
       <column name="Amount" sql-type="nvarchar" not-null="false" />
     </property>
     <property name="Month">
       <column name="Month" sql-type="int" not-null="true" />
+    </property>
+
+    <many-to-one name="Rent">
+      <column name="RentId" sql-type="int" not-null="true" />
+      <column name="RentId" sql-type="int" not-null="true" />
+    </many-to-one>
+    
+    <property name="BillContent" type="Serializable">
+      <column name="BillContent" not-null="true" sql-type="varbinary(max)"/>
     </property>
   </class>
 </hibernate-mapping>

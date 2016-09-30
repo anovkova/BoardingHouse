@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BillMergeModel.cs" />
+    <Compile Include="BillStatusEnum.cs" />
     <Compile Include="BillTypeViewModel.cs" />
     <Compile Include="BillViewModel.cs" />
     <Compile Include="CurrentRent.cs" />

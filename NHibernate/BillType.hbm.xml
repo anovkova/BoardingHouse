@@ -5,7 +5,25 @@
       <generator class="identity" />
     </id>
     <property name="Name">
-      <column name="Description" sql-type="nvarchar" not-null="false" />
+      <column name="Name" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="AccountNumber">
+      <column name="AccountNumber" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="Bank">
+      <column name="Bank" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="ExpenseOfBudgetUser">
+      <column name="ExpenseOfBudgetUser" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="RevenueCode">
+      <column name="RevenueCode" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="PurposeOfPayment">
+      <column name="PurposeOfPayment" sql-type="nvarchar" not-null="false" />
+    </property>
+    <property name="SuspenseAccount">
+      <column name="SuspenseAccount" sql-type="nvarchar" not-null="false" />
     </property>
   </class>
 </hibernate-mapping>

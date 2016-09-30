@@ -51,7 +51,6 @@ namespace Mappers
             {
                 Id = bill.Id,
                 Amount = bill.Amount,
-                Description = bill.Description,
                 Month = bill.Month
             };
 

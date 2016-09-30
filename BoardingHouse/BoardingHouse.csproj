@@ -963,7 +963,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="BillTemplates\EVN.doc" />
+    <Content Include="BillTemplates\BillTemplate.doc" />
     <None Include="scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="scripts\jquery-3.1.0.js" />
     <Content Include="scripts\jquery-3.1.0.min.js" />
