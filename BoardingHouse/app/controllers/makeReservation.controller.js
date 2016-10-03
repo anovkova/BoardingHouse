@@ -1,14 +1,14 @@
 ﻿'use strict';
 
-angular.module('adminModule').controller('makeReservationController', ['$scope', 'adminService', 'room', '$uibModalInstance',
-      function ($scope, adminService, room, $uibModalInstance) {
+angular.module('adminModule').controller('makeReservationController', ['$scope', 'adminService', 'room', 'dateStart', 'dateEnd', 'user', '$uibModalInstance',
+      function ($scope, adminService, room, dateStart, dateEnd, user, $uibModalInstance) {
           $scope.errorMsg = '';
           $scope.users = [];
           $scope.reservation = {
               RoomId: room.Id,
-              User: '',
-              DateStart: undefined,
-              DateEnd: undefined
+              User: user,
+              DateStart: dateStart,
+              DateEnd: dateEnd
           }
 
           $scope.loadUsers = function () {

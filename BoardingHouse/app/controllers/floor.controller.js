@@ -48,6 +48,15 @@ angular.module('adminModule').controller('floorController', ['$scope', 'adminSer
                                 resolve: {
                                     room: function () {
                                         return room;
+                                    },
+                                    dateStart: function () {
+                                        return undefined;
+                                    },
+                                    dateEnd: function () {
+                                        return undefined;
+                                    },
+                                    user: function() {
+                                        return '';
                                     }
                                 }
                             }).result
@@ -120,8 +129,35 @@ angular.module('adminModule').controller('floorController', ['$scope', 'adminSer
                       }
                   }
               }).result
-                .then(function () {
+                .then(function (makeReservation) {
                     //cancel
+                    $uibModal.open(
+                            {
+                                templateUrl: '/app/templetes/admin/makeReservation.html',
+                                backdrop: 'static',
+                                windowClass: 'modal',
+                                scope: $scope,
+                                controller: 'makeReservationController',
+                                resolve: {
+                                    room: function () {
+                                        return room;
+                                    },
+                                    dateStart: function () {
+                                        return $scope.search.DateStart;
+                                    },
+                                    dateEnd: function () {
+                                        return $scope.search.DateEnd;
+                                    },
+                                    user: function () {
+                                        return $scope.search.User;
+                                    }
+                                }
+                            }).result
+                            .then(function () {
+                                $scope.searchFreeFloors();
+                            }, function () {
+                                //dismiss
+                            });
                 }, function () {
                     //dismiss
                 });

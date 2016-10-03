@@ -45,12 +45,12 @@ namespace Service
                     throw new ApplicationException("RENT_NOT_FOUND");
 
                 var status = _statusRepository.FindBy(2);
-                if(status == null)
+                if (status == null)
                     throw new ApplicationException("STATUS_NOT_FOUND");
 
                 decimal amount;
                 TryParse(model.Amount, out amount);
-                
+
                 var mergeModel = new BillMergeModel
                 {
                     FullName = string.Format("{0} {1}", rent.User.FirstName, rent.User.LastName),
@@ -76,7 +76,7 @@ namespace Service
                     new object[0],
                     "BillTemplates\\BillTemplate.doc",
                     ds);
-                
+
                 var bill = new Bill
                 {
                     Amount = model.Amount,
@@ -124,19 +124,19 @@ namespace Service
                 _statusRepository = new Repository<Status>(session);
 
                 var billDb = _billRepository.FindBy(bill.Id);
-                if (billDb != null)
-                {
-                    if (billDb.Status.Id == 1)
-                        billDb.Status = _statusRepository.FindBy(2);
-                    else billDb.Status = _statusRepository.FindBy(1);
-                    _billRepository.AddOrUpdate(billDb);
-                    transaction.Commit();
+                if (billDb == null)
+                    throw new ApplicationException("Bill not found");
 
-                    return billDb.ToAccountViewModel();
+                billDb.Status = billDb.Status.Id == (int)BillStatusEnum.Draft
+                    ? _statusRepository.FindBy((int)BillStatusEnum.Paid)
+                    : _statusRepository.FindBy((int)BillStatusEnum.Draft);
 
-                }
-                return null;
-                
+                _billRepository.AddOrUpdate(billDb);
+                transaction.Commit();
+
+                return billDb.ToAccountViewModel();
+
+
             }
         }
     }

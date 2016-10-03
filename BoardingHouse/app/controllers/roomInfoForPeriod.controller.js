@@ -31,5 +31,9 @@ angular.module('adminModule').controller('roomInfoForPeriodController', ['$scope
             $scope.parseDate = function(jsonDateString) {
                 return new Date(parseInt(jsonDateString.replace('/Date(', '')));
             }
+
+            $scope.makeReservation = function () {
+                $uibModalInstance.close(true);
+            }
         }
 ]);
