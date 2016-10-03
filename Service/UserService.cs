@@ -324,6 +324,23 @@ namespace Service
                 return rent;
             }
         }
+
+        public void DeleteRent(int id)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            using (var transcation = session.BeginTransaction())
+            {
+                _rentRepository = new Repository<Rent>(session);
+                var rent =
+                    _rentRepository.FindBy(id);
+
+                if(rent.Bills.Any())
+                    throw new ApplicationException("Can not delete because there are bills generated for this rent");
+
+                _rentRepository.Delete(rent);
+                transcation.Commit();
+            }
+        }
         
     }
 }

@@ -106,8 +106,12 @@ namespace BoardingHouse.Controllers
 
             return Json(billToReturn);
         }
-        
 
-
+        [HttpPost]
+        public JsonResult DeleteRent(int id)
+        {
+             _userService.DeleteRent(id);
+            return Json(true);
+        }
     }
 }

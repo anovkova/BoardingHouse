@@ -145,6 +145,20 @@ angular.module('adminModule').factory('adminService',
                        errorcb(error);
                    });
                 },
+                deleteRent: function (rentId, successcb, errorcb) {
+                    $http({
+                        method: 'POST',
+                        url: 'Admin/DeleteRent',
+                        data: JSON.stringify({id: rentId}),
+                        headers: { 'content-type': 'application/json' }
+                    }).
+                   success(function (data) {
+                       successcb(data);
+                   }).
+                   error(function (error) {
+                       errorcb(error);
+                   });
+                },
                 updateStatus: function (bill, successcb, errorcb) {
                     $http({
                         method: 'POST',

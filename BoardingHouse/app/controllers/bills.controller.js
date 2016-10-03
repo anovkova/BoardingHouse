@@ -22,7 +22,7 @@ angular.module('adminModule').controller('billsController', ['$scope', 'adminSer
                   controller: 'updateStatusController',
                   resolve: {
                       bill : function() {
-                          return bill
+                          return bill;
                       }
                   }
               });
@@ -33,9 +33,5 @@ angular.module('adminModule').controller('billsController', ['$scope', 'adminSer
                     alert(reason);
                 });
           };
-
-
-
-          
       }
 ]);

@@ -7,15 +7,18 @@ angular.module('adminModule').controller('reservationController', ['$scope', 'ad
 
             $scope.getAllRents = function () {
                 adminService.getAllRents(function (data) {
-                    debugger;
                     $scope.Rents = data;
                 }, function () { });
             };
 
             $scope.getAllRents();
 
-            $scope.updateRent = function (data) {
-                debugger;
+            $scope.deleteRent = function (rent) {
+                adminService.deleteRent(rent.Id, function (data) {
+                    if (!!data) {
+                        $scope.getAllRents();
+                    }
+                }, function (error) { });
             };
 
             $scope.addNewBill = function (rent) {
@@ -26,7 +29,7 @@ angular.module('adminModule').controller('reservationController', ['$scope', 'ad
                     controller: 'addBillController',
                     resolve: {
                         rent: function () {
-                            return rent
+                            return rent;
                         }
                     }
                 });
