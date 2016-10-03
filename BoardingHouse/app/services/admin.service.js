@@ -102,7 +102,63 @@ angular.module('adminModule').factory('adminService',
                    error(function (error) {
                        errorcb(error);
                    });
-                }
+                },
+                getAllBills: function (successcb, errorcb) {
+                    $http({
+                        method: 'POST',
+                        url: 'Admin/GetAllBills',
+                        data: JSON.stringify(),
+                        headers: { 'content-type': 'application/json' }
+                    }).
+                   success(function (data) {
+                       successcb(data);
+                   }).
+                   error(function (error) {
+                       errorcb(error);
+                   });
+                },
+                loadTypeOfBills: function (successcb, errorcb) {
+                    $http({
+                        method: 'POST',
+                        url: 'Admin/LoadTypeOfBills',
+                        data: JSON.stringify(),
+                        headers: { 'content-type': 'application/json' }
+                    }).
+                   success(function (data) {
+                       successcb(data);
+                   }).
+                   error(function (error) {
+                       errorcb(error);
+                   });
+                },
+                addNewBill: function (bill,successcb, errorcb) {
+                    $http({
+                        method: 'POST',
+                        url: 'Admin/AddNewBill',
+                        data: JSON.stringify(bill),
+                        headers: { 'content-type': 'application/json' }
+                    }).
+                   success(function (data) {
+                       successcb(data);
+                   }).
+                   error(function (error) {
+                       errorcb(error);
+                   });
+                },
+                updateStatus: function (bill, successcb, errorcb) {
+                    $http({
+                        method: 'POST',
+                        url: 'Admin/UpdateStatus',
+                        data: JSON.stringify(bill),
+                        headers: { 'content-type': 'application/json' }
+                    }).
+                   success(function (data) {
+                       successcb(data);
+                   }).
+                   error(function (error) {
+                       errorcb(error);
+                   });
+                },
             };
         }
     ]);

@@ -17,14 +17,15 @@ namespace Mappers
                 Embg = user.Embg,
                 Password = user.Password,
                 PhoneNumber = user.PhoneNumber,
-                Address = user.Address
+                Address = user.Address,
+                Image = user.Image,
             };
 
             if (user.Role != null)
             {
                 model.Role = user.Role.ToRoleViewModel();
             }
-
+         
             return model;
         }
 

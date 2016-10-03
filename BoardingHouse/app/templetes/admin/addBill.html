@@ -1,0 +1,50 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Додади сметка</h3>
+</div>
+<div class="modal-body">
+    <form name="billForm" novalidate>
+        <!--<div>
+            <label>Корисник:</label>
+            <select ng-model="bill"
+                    ng-options="user.FullName for user in users track by user.Id"
+                    class="form-control" style="margin-bottom: 10px">
+                <option value="">Изберете корисник</option>
+            </select>
+        </div>-->
+        <div>
+            <label>Тип на сметка:</label>
+            <select ng-model="bill.BillType"
+                    ng-options="type.Name for type in type track by type.Id"
+                    class="form-control" style="margin-bottom: 10px">
+                <option value="">Изберете тип на сметка</option>
+            </select>
+        </div>
+        <div>
+            <label>Износ:</label>
+            <input type="text" ng-class="{ 'has-error' : bill.Amount.$invalid && !bill.Amount.$pristine }" name="Amount" class="form-control" ng-model="bill.Amount" required>
+        </div>
+        <div>
+            <label>Месец:</label>
+            <select ng-model="bill.Month" class="form-control" style="margin-bottom: 10px">
+                <option value=''>--Изберете месец--</option>
+                <option selected value='1'> Јануар</option>
+                <option value='2'>Февруари</option>
+                <option value='3'>Март</option>
+                <option value='4'>Април</option>
+                <option value='5'>Мај</option>
+                <option value='6'>Јуни</option>
+                <option value='7'>Јули</option>
+                <option value='8'>Август</option>
+                <option value='9'>Септември</option>
+                <option value='10'>Октомври</option>
+                <option value='11'>Ноември</option>
+                <option value='12'>Декември</option>
+            </select> 
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" type="button" ng-click="Save(billForm)">Сними</button>
+    <button class="btn btn-danger" type="button" ng-click="cancel()">Откажи</button>
+</div>

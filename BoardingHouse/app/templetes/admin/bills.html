@@ -1,0 +1,20 @@
+﻿<div>
+    <table class="table-striped" style="width:100%">
+        <thead>
+            <tr class="text-left">
+                <th>Корисник</th>
+                <th>Статус</th>
+                <th>Преглед на сметката</th>      
+                <th>Промени статус</th>        
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="bill in Bills" class="text-left" style="padding:5px">
+                <td>{{bill.Rent.User.FirstName + " " + bill.Rent.User.LastName}}</td>
+                <td>{{bill.Status.Title}}</td>
+                <td>Линк</td> 
+                <td><a ng-click="updateStatus(bill)"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

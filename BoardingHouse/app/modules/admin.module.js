@@ -25,7 +25,12 @@
                     templateUrl: "/app/templetes/admin/reservations.html",
                     controller: 'reservationController'
                 });
-
+            $stateProvider
+             .state('bills', {
+                 url: "/Bills",
+                 templateUrl: "/app/templetes/admin/bills.html",
+                 controller: 'billsController'
+             });
         }
     ]);
 

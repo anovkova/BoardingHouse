@@ -11,7 +11,10 @@
                 <img class="card-bkimg" alt="" src="~/image/Screenshot_6.png">
             </div>
             <div class="useravatar">
-                <img alt="" src="~/image/Screenshot_6.png">
+                
+                <img alt="" ng-if="!user.Image" src="~/image/defaultImage.png">
+                <img ng-if="user.Image" ng-src="{{'data:image/png;base64,'+user.Picture}}">
+
             </div>
             <div class="card-info">
                 <span class="card-title">{{userFullName}}</span>
@@ -57,7 +60,7 @@
                                 </tr>
                                 <tr>
                                     <th>Адреса:</th>
-                                    <td></td>
+                                    <td>{{user.Address}}</td>
                                 </tr>
                                 <tr>
                                     <th>ЕМБГ:</th>
@@ -74,7 +77,7 @@
                                 <tr>
                                     <th>
                                         <div ngf-drop ngf-select ng-model="file" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false">
-                                            Drop images here or click to upload
+                                            Прикачи слика
                                         </div>
                                     </th>
                                     <td class="text-right"><div ng-click="updateInfo()" ng-app=""><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>Промени лични информации</div></td>
@@ -154,10 +157,11 @@
                             </div>
 
                         </div>
-                    </div>
                     <div class="tab-pane fade in" id="tab3">
                         <h3>This is tab 3</h3>
                     </div>
+                    </div>
+                    
                 </div>
             </div>
         

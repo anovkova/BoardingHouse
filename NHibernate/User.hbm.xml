@@ -28,9 +28,13 @@
     <property name="Password">
       <column name="Password" sql-type="nvarchar" not-null="true" />
     </property>
+    <property name="Image">
+      <column name="Image" sql-type="varbinary(max)" length="2147483647" not-null="false" />
+    </property>
     <bag name="Rents">
       <key column="UserId" />
       <one-to-many class="Rent" />
     </bag>
   </class>
 </hibernate-mapping>
+

@@ -10,9 +10,11 @@ namespace ViewModels
         public string LastName { get; set; }
         public string Embg { get; set; }
         public string Email { get; set; }
-        public virtual string PhoneNumber { get; set; }
-        public virtual string Address { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
         public string Password { get; set; }
+        public byte[] Image { get; set; }
+        public string Picture { get; set; }
         public List<RentViewModel> Rents { get; set; }
 
         public string FullName

@@ -1,0 +1,10 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Промени статус</h3>
+</div>
+<div class="modal-body">
+    Дали сакате да го промените статусот на сметката во <span ng-if="bill.Status.Id==2">платена?</span><span ng-if="bill.Status.Id==1">неплатена?</span>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" type="button" ng-click="Save()">Сними</button>
+    <button class="btn btn-danger" type="button" ng-click="cancel()">Откажи</button>
+</div>

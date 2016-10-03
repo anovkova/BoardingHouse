@@ -78,10 +78,6 @@
       <Project>{c7ea2909-cfa6-4890-8858-103adf754ee3}</Project>
       <Name>NHibernates</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Repository\Repository.csproj">
-      <Project>{fb84bee6-6d1c-43c8-9a24-e488bb1a2f4e}</Project>
-      <Name>Repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ViewModels\ViewModels.csproj">
       <Project>{62cfb6da-b296-486d-8b64-30961cfc95e5}</Project>
       <Name>ViewModels</Name>

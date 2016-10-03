@@ -47,11 +47,11 @@ angular.module('userModule').factory('userService',
                         errorcb(error);
                     });
                 },
-                getCurrentRentByUser: function (user, successcb, errorcb) {
+                getCurrentRentByUser: function (successcb, errorcb) {
                     $http({
                         method: 'POST',
                         url: 'User/GetCurrentRentByUser',
-                        data: JSON.stringify(user),
+                        data: JSON.stringify(),
                         headers: { 'content-type': 'application/json' }
                     }).
                     success(function (data) {
@@ -61,11 +61,11 @@ angular.module('userModule').factory('userService',
                         errorcb(error);
                     });
                 },
-                getAllRentByUser: function (user, successcb, errorcb) {
+                getAllRentByUser: function (successcb, errorcb) {
                     $http({
                         method: 'POST',
                         url: 'User/GetAllRentByUser',
-                        data: JSON.stringify(user),
+                        data: JSON.stringify(),
                         headers: { 'content-type': 'application/json' }
                     }).
                     success(function (data) {

@@ -44,7 +44,7 @@ namespace Service
                 if (rent == null)
                     throw new ApplicationException("RENT_NOT_FOUND");
 
-                var status = _statusRepository.FindBy(BillStatusEnum.Draft);
+                var status = _statusRepository.FindBy(2);
                 if(status == null)
                     throw new ApplicationException("STATUS_NOT_FOUND");
 
@@ -101,6 +101,42 @@ namespace Service
                 _billTypeRepository = new Repository<BillType>(session);
 
                 return _billTypeRepository.All().Select(x => x.ToModel()).ToList();
+            }
+        }
+
+        public List<BillViewModel> GetAllBills()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            using (ITransaction transaction = session.BeginTransaction())
+            {
+                _billRepository = new Repository<Bill>(session);
+
+                return _billRepository.All().Select(x => x.ToAccountViewModel()).ToList();
+            }
+        }
+
+        public BillViewModel UpdateStatus(BillViewModel bill)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            using (ITransaction transaction = session.BeginTransaction())
+            {
+                _billRepository = new Repository<Bill>(session);
+                _statusRepository = new Repository<Status>(session);
+
+                var billDb = _billRepository.FindBy(bill.Id);
+                if (billDb != null)
+                {
+                    if (billDb.Status.Id == 1)
+                        billDb.Status = _statusRepository.FindBy(2);
+                    else billDb.Status = _statusRepository.FindBy(1);
+                    _billRepository.AddOrUpdate(billDb);
+                    transaction.Commit();
+
+                    return billDb.ToAccountViewModel();
+
+                }
+                return null;
+                
             }
         }
     }

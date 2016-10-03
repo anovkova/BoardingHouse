@@ -9,6 +9,7 @@ angular.module('userModule').controller('userProfileController',
       function ($scope, userService, $uibModal, upload) {
           $scope.userFullName = null;
           $scope.file = '';
+          $scope.user = null;
 
           $scope.getLoginUser = function () {
               userService.getLoginUser(function(data) {
@@ -28,12 +29,12 @@ angular.module('userModule').controller('userProfileController',
           };
 
           $scope.getRentByUser = function () {
-              userService.getCurrentRentByUser($scope.user, function (data) {
+              userService.getCurrentRentByUser(function (data) {
                   $scope.currentRent = data;
               }, function () { });
           };
           $scope.getAllRentByUser = function () {
-              userService.getAllRentByUser($scope.user, function (data) {
+              userService.getAllRentByUser(function (data) {
                   $scope.allRents = data;
               }, function () { });
           };

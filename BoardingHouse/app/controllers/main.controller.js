@@ -3,6 +3,7 @@
 angular.module('mainModule').controller('mainController',
  ['$scope', 'appService', function ($scope, appService) {
      $scope.msg = "";
+
      $scope.user = {
          Email: "",
          Password: ""

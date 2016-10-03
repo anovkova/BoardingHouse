@@ -24,7 +24,7 @@
     </many-to-one>
     
     <property name="BillContent" type="Serializable">
-      <column name="BillContent" not-null="true" sql-type="varbinary(max)"/>
+      <column name="BillContent" not-null="true" sql-type="varbinary(max)" length="2147483647"/>
     </property>
   </class>
 </hibernate-mapping>

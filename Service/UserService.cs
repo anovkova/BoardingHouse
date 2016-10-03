@@ -172,6 +172,7 @@ namespace Service
             using (ISession session = NHibernateHelper.OpenSession())
             using (session.BeginTransaction())
             {
+
                 _userRepository = new Repository<User>(session);
 
                 var user = _userRepository.All().FirstOrDefault(x => x.Email == email);
@@ -179,7 +180,9 @@ namespace Service
                 if (user == null)
                     throw new ApplicationException("USER_NOT_FOUND");
 
-                return user.ToUserViewModel();
+                var loginUser = user.ToUserViewModel();
+                loginUser.Picture = Convert.ToBase64String(loginUser.Image);
+                return loginUser;
             }
         }
 
@@ -188,6 +191,7 @@ namespace Service
             using (ISession session = NHibernateHelper.OpenSession())
             using (session.BeginTransaction())
             {
+                _userRepository = new Repository<User>(session);
                 var user = _userRepository.FindBy(model.Id);
                 if (user == null)
                     throw new ApplicationException("USER_NOT_FOUND");
@@ -210,7 +214,9 @@ namespace Service
                 if (user == null)
                     throw new ApplicationException("USER_NOT_FOUND");
 
-                return user.Rents.Select(x => x.ToSimpleModel()).ToList();
+                if (user.Rents != null)
+                    return user.Rents.Select(x => x.ToSimpleModel()).ToList();
+                else return null;
             }
         }
 
@@ -286,5 +292,38 @@ namespace Service
                     (endDate.Value.Date >= rentStartDate.Date && endDate.Value.Date <= rentEndDate.Value.Date) ||
                     (startDate.Date <= rentStartDate.Date && endDate.Value.Date >= rentEndDate.Value.Date);
         }
+
+        public void UploadPicture(UserViewModel user, byte[] binData)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            using (ITransaction transaction = session.BeginTransaction())
+            {
+                _userRepository = new Repository<User>(session);
+
+                var userDomain = _userRepository.FindBy(user.Id);
+                if (userDomain != null)
+                {
+                    userDomain.Image = binData;
+                    _userRepository.AddOrUpdate(userDomain);
+                    transaction.Commit();
+                }
+             
+
+            }
+        }
+
+        public RentViewModel GetRentById(int Id)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            using (session.BeginTransaction())
+            {
+                _rentRepository = new Repository<Rent>(session);
+                var rent =
+                    _rentRepository.FindBy(Id).ToRentViewModel();
+
+                return rent;
+            }
+        }
+        
     }
 }
